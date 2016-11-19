@@ -1,0 +1,4 @@
+# Elementos a serem bloqueados
+
+node_modules
+uploads/img

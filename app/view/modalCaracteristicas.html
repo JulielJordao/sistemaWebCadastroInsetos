@@ -1,0 +1,81 @@
+<!-- Modal -->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <!-- Area da modal-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Pesquisa de Características</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="searchBar">Procurar:</label>
+                        <div class="input-group">
+                            <!--Estava faltando essa div-->
+                            <input type="text" class="form-control" id="searchBar" placeholder="Nome:" ng-model="pesquisa.nome"/>
+                            <span class="input-group-btn">
+                                <!--Estava faltando esse span-->
+                                <button type="submit" class="btn btn-info" value="Procurar" ng-click="pesquisar(pesquisa.nome)">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <h4 style="text-align: center;">Pesquisa de Características</h4>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>Imagem</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="x in resultadoPesquisa" ng-click="setSelected(x._id)">
+                            <tr>
+                                <td><input type="checkbox" name="name" value="" ng-model="x.selecionado"></td>
+                                <td>{{x.nome}}</td>
+                                <td>
+                                    <button type="button" ng-click="imagemModal()">
+                                        <span class="glyphicon glyphicon-new-window" onchange="openModal()"></button>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr style="color: green">
+                    <h4 style="text-align: center;">Listagem</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nome</th>
+                                    <th>Imagem</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="x in caracteristicas" ng-click="setSelected(x._id);">
+                                <tr>
+                                    <td><input type="checkbox" name="name" value="" ng-model="x.selecionado" ng-click="isCaracteristicasSelecionados()"></td>
+                                    <td>{{x.nome}}</td>
+                                    <td>
+                                        <button type="button" ng-click="imagemModal()">
+                                            <span class="glyphicon glyphicon-new-window" onchange="openModal()"></button>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" ng-disabled="!isCaracteristicasSelecionados()" data-dismiss="modal" ng-click="adicionarListCaracteristicas()">Adicionar Selecionados</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!-- Bootstrap estilos -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+
+        <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+        <script src="js/libs/angular.min.js"></script>
+        <!-- Arquivo genérico de estilos -->
+        <link rel="stylesheet" href="css/style.css">
+        <title>Cadastro de características</title>
+    </head>
+    <body ng-app="myApp" ng-controller="inicialController">
+        <div ng-include="'view/cabecalho.html'"></div>
+        <div class="col-sm-12">
+            <div class="col-sm-12" style="background-color: green; height:200px; margin-top: 10px;">
+                <div class="col-sm-4" style="padding-left:0px; padding-right:0px;" >
+                    <img src="img/insetos.jpg" alt="" style="height:200px;"/>
+                </div>
+                <div class="col-sm-4">
+                    <h3 style="text-align: center;  margin-top:70px">Inserir Características</h3>
+                </div>
+                <div class="col-sm-4 pull-right" style="padding-left:0px; padding-right:0px;" >
+                    <a href="/cadastroCaracteristicas.html"><img class="pull-right" src="img/avancar.jpg" alt="" style="height:200px;"/></a>
+                </div>
+            </div>
+            <div class="col-sm-12" style="background-color: green; height:200px; margin-top: 10px; margin-bottom:10px;">
+                <div class="col-sm-4" style="padding-left:0px; padding-right:0px;" >
+                    <img src="img/insetos.jpg" alt="" style="height:200px;"/>
+                </div>
+                <div class="col-sm-4">
+                    <h3 style="text-align: center; margin-top:70px">Inserir Insetos</h3>
+                </div>
+                <div class="col-sm-4" style="padding-left:0px; padding-right:0px;" >
+                    <a href="/cadastroInsetos.html"><img class="pull-right" src="img/avancar.jpg" alt="" style="height:200px;"/></a>
+                </div>
+            </div>
+        </div>
+        <div ng-include="'view/footer.js'"></div>
+
+        <script src="js/libs/angular-route.min.js"></script>
+        <script src="js/libs/jquery-1.12.4.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+        <script src="js/libs/ui-bootstrap-tpls-2.2.0.min.js"></script>
+        <script src="js/vendor/jquery.ui.widget.js"></script>
+        <script src="app.js"></script>
+
+    </body>
+</html>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#blah').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<style>
