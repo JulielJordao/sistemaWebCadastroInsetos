@@ -1,87 +1,42 @@
-<!DOCTYPE html>
-<html ng-app="app">
-    <head>
-        <meta charset="utf-8">
-        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-        <!-- Bootstrap estilos -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+<div class="row jumbotron" style="padding:0px; heigth:65px !important; padding-left: 20px !important;">
+    <h2>Cadastro de Características</h2>
+</div>
+<form class="" name="cadastroCaracteristicaForm">
 
-        <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-        <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-        <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-        <script src="js/libs/angular.min.js"></script>
-        <!-- Arquivo genérico de estilos -->
-        <link rel="stylesheet" href="css/style.css">
-        <title>Cadastro de características</title>
-    </head>
-    <body ng-app="myApp" ng-controller="cadastroCaracteristica">
-        <div ng-include="'view/cabecalho.html'"></div>
-        <div class="row jumbotron" style="padding:0px; heigth:65px !important; padding-left: 20px !important;">
-            <h2>Cadastro de Características</h2>
-        </div>
-        <form class="" name="cadastroCaracteristicaForm">
+    <div class="col-sm-12" style="background-color:white; padding-bottom:10px">
+        <div class="col-sm-7" style="padding-left:0px; margin-top: -6px;">
+            <p>Info: Insira uma imagem correspondente a característica a ser cadastrado</p>
+            <form id="fileupload">
+                <!-- Redirect browsers with JavaScript disabled to the origin page -->
 
-            <div class="col-sm-12" style="background-color:white; padding-bottom:10px">
-                <div class="col-sm-7" style="padding-left:0px; margin-top: -6px;">
-                    <p>Info: Insira uma imagem correspondente a característica a ser cadastrado</p>
-                    <form id="fileupload">
-                        <!-- Redirect browsers with JavaScript disabled to the origin page -->
-
-                        <div class="row fileupload-buttonbar">
-                            <div class="col-lg-12">
-                                <!-- O fileinput-botton span é usado para estilizar o campo de arquivo no botão -->
-                                <span class="btn btn-success input-group btn-block">
-                                    <input type="file" class="form-control-file" accept="image/*" file-model="url.image" onchange="readURL(this);" ng-required="true" />
-                                </span>
-                                <div class="imagemCadatro">
-                                    <img id="blah" src="#" alt="Nenhuma Imagem" style="margin-top: 10px;" ng-show="url.image !== undefined" style="max-heigth:100%; max-width:100%"/>
-                                    <img id="temp" src="img/sem-imagem.png" alt="sem-imagem" style="margin-top: 10px" ng-show="url.image === undefined" ng-required="true" style="max-heigth:100%; max-width:100%">
-                                </div>
-                            </div>
+                <div class="row fileupload-buttonbar">
+                    <div class="col-lg-12">
+                        <!-- O fileinput-botton span é usado para estilizar o campo de arquivo no botão -->
+                        <span class="btn btn-success input-group btn-block">
+                            <input type="file" class="form-control-file" accept="image/*" file-model="url.image" onchange="readURL(this);" ng-required="true"/>
+                        </span>
+                        <div class="imagemCadatro">
+                            <img id="blah" src="#" alt="Nenhuma Imagem" style="margin-top: 10px;" ng-show="url.image !== undefined" style="max-heigth:100%; max-width:100%"/>
+                            <img id="temp" src="img/sem-imagem.png" alt="sem-imagem" style="margin-top: 10px" ng-show="url.image === undefined" ng-required="true" style="max-heigth:100%; max-width:100%">
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <div class="col-sm-5">
-                    <div class="row">
-                        <fieldset >
-                            <div class="form-group">
-                                <label for="infoCadastro">Nome da Característica</label>
-                                <input type="text" class="form-control" name="name" value="" ng-model="caracteristica.nomCaracteristica">
-                            </div>
-                        </fieldset>
+            </form>
+        </div>
+        <div class="col-sm-5">
+            <div class="row">
+                <fieldset >
+                    <div class="form-group">
+                        <label for="infoCadastro">Nome da Característica</label>
+                        <input type="text" class="form-control" name="name" value="" ng-model="caracteristica.nomCaracteristica">
                     </div>
-                    <div class="row">
-                        <div class="pull-right">
-                            <button type="button" class="btn-primary btn" ng-click="submeterCadastro()" ng-disabled="cadastroCaracteristicaForm.$invalid || cadastroCaracteristicaForm.$pristine">Confimar Cadastro</button>
-                        </div>
-                    </div>
+                </fieldset>
+            </div>
+            <div class="row">
+                <div class="pull-right">
+                    <button type="button" class="btn-primary btn" ng-click="submeterCadastro()" ng-disabled="cadastroCaracteristicaForm.$invalid || cadastroCaracteristicaForm.$pristine">Confimar Cadastro</button>
                 </div>
             </div>
-        </form>
-        <div ng-include="'view/footer.js'"></div>
-
-        <script src="js/libs/angular-route.min.js"></script>
-        <script src="js/libs/jquery-1.12.4.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-        <script src="js/libs/ui-bootstrap-tpls-2.2.0.min.js"></script>
-        <script src="js/vendor/jquery.ui.widget.js"></script>
-        <script src="app.js"></script>
-
-    </body>
-</html>
-<script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#blah').attr('src', e.target.result);
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
-
-<style>
+        </div>
+    </div>
+</form>

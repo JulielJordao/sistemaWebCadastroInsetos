@@ -12,20 +12,20 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li ng-class="{'active' : view === 'inicial'}">
-                    <a href="/">Página Inicial</a>
+                    <a href="/index.html#!/">Página Inicial</a>
                 </li>
                 <li>
                     <a href="#">Pesquisa</a>
                 </li>
-                <li class="dropdown" ng-class="{'active' : view === 'cadastro'}" ng-show="$root.logado !== false && $root.logado !== undefined">
+                <li class="dropdown" ng-class="{'active' : view == 'cadastro'}" ng-show="$root.logado !== false && $root.logado !== undefined">
                     <a target="_blank" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastrar<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="/cadastroCaracteristicas.html">Características</a>
+                            <a href="index.html#!/cadastroCaracteristicas">Características</a>
                         </li>
                         <li>
-                            <a href="/cadastroInsetos.html">Insetos</a>
+                            <a href="index.html#!/cadastroInsetos">Insetos</a>
                         </li>
                         <!--                                        <li class="divider"></li>
                                          <li class="dropdown-header">Nav header</li>
@@ -47,9 +47,9 @@
                 <li style="margin-top: 15px; color : green">Bem vindo,
                     {{$root.user}}!</li>
                 <li style="border">
-                    <a href="#" style="color:green">
+                    <a href="" style="color:green" ng-click="logout()">
                         Logout
-                        <span class="glyphicon glyphicon-log-in" ng-click="logout()" style="color: green"></span>
+                        <span class="glyphicon glyphicon-log-in" style="color: green"></span>
                     </a>
                 </li>
             </ul>
