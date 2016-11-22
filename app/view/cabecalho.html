@@ -11,13 +11,13 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li ng-class="{'active' : view === 'inicial'}">
+                <li ng-class="{'active' : $root.view === 'inicial'}">
                     <a href="/index.html#!/">Página Inicial</a>
                 </li>
                 <li>
                     <a href="#">Pesquisa</a>
                 </li>
-                <li class="dropdown" ng-class="{'active' : view == 'cadastro'}" ng-show="$root.logado !== false && $root.logado !== undefined">
+                <li class="dropdown" ng-class="{'active' : $root.view == 'cadastro'}" ng-show="$root.logado !== false && $root.logado !== undefined">
                     <a target="_blank" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cadastrar<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -47,7 +47,7 @@
                 <li style="margin-top: 15px; color : green">Bem vindo,
                     {{$root.user}}!</li>
                 <li style="border">
-                    <a href="" style="color:green" ng-click="logout()">
+                    <a href="" style="color:green" ng-click="$root.logout()">
                         Logout
                         <span class="glyphicon glyphicon-log-in" style="color: green"></span>
                     </a>

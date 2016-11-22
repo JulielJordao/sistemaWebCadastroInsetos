@@ -1,6 +1,6 @@
 var app = angular.module('myApp');
 
-app.controller('cadastroInsetos', function($scope, $rootScope, $http, $uibModal, usuariosService) {
+app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosService, Notification) {
 
     $scope.insetos = {};
     $scope.insetos.ordem = {};
@@ -8,13 +8,15 @@ app.controller('cadastroInsetos', function($scope, $rootScope, $http, $uibModal,
     $scope.ordemCadastroVisivel = false;
     $scope.selecionado = false;
     $scope.view = "cadastro";
+
+    usuariosService.init("cadastro")
     $scope.listCaracteristicas = [];
 
-    console.log($scope);
     usuariosService.testarPermissao();
     carregarOrdem();
 
     $scope.logout = function() {
+      console.log("aqui")
         usuariosService.logout();
     };
 
@@ -42,11 +44,11 @@ app.controller('cadastroInsetos', function($scope, $rootScope, $http, $uibModal,
 
             function sucesso(resultado) {
                 console.log(resultado);
-                window.alert("Cadastro com Sucesso")
+                Notification.success({message: "Cadastrado com sucesso", title : "Insetos"})
             };
 
             function error(err) {
-                console.log(err);
+              console.log(err)
             }
         };
 
@@ -183,7 +185,17 @@ app.controller('cadastroInsetos', function($scope, $rootScope, $http, $uibModal,
         };
     };
 
+    $scope.isSelecionado = function() {
+        return $scope.selecionado;
+    };
 
+    $scope.mudarSelecionados = function(x) {
+        if (x.selecionado === true) {
+            $scope.selecionado = true;
+        } else {
+            $scope.selecionado = false;
+        }
+    }
 
     // -------------------------------------------------------------------------------------------
     // ---------------------- Fim das Funções relacionadas ao cadastro de ordem de insetos -------

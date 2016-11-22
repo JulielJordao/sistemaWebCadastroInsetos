@@ -27,13 +27,13 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="infoCadastro">Nome do Inseto</label>
-                            <input type="text" class="form-control" name="name" value="" ng-model="insetos.nome">
+                            <input type="text" class="form-control" name="name" value="" ng-model="insetos.nome" ng-required="true">
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <label for="associarOrdem">Associar a uma Ordem</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-maxlength="11" ng-model="insetos.ordem.nome" ng-disabled="true" required="required">
+                            <input type="text" class="form-control" ng-maxlength="11" ng-model="insetos.ordem.nome" ng-disabled="true" ng-required="required">
                             <span class="input-group-btn">
                                 <button class="glyphicon glyphicon-search btn btn-primary" type="button" data-toggle="modal" data-target="#modalAssociarOrdem" onclick="removerClasseInvalida()"></button>
                             </span>

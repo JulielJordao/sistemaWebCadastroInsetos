@@ -1,19 +1,17 @@
 (function() {
     'use strict';
-    var app = angular.module('myApp', ['ngRoute', 'angular-growl', 'ui.bootstrap']);
+    var app = angular.module('myApp', ['ngRoute', 'ui-notification', 'ui.bootstrap']);
 
-    var login = angular.module('loginApp', ['app']);
+    var login = angular.module('loginApp', ['myApp']);
 
     /* Criaremos um controller geral, e aqui adicionaremos algumas configurações*/
     app.controller('pageController', function($scope, usuariosService) {
-        $scope.logout = function() {
-            usuariosService.logout();
-        };
+        usuariosService.init("inicial");
     })
 
     // --------------------------------------------------- Controle de Acesso --------------------------------------------
 
-    app.service('usuariosService', function($rootScope, $location, $timeout, growl, $http) {
+    app.service('usuariosService', function($rootScope, $location, $timeout, Notification, $http) {
         /*Esta função faz o papel de validação que seria feito no backend */
         this.validaLogin = function(user) {
             //usuários fictícios que possam ser usados pela página e pra validar o login
@@ -26,23 +24,30 @@
             }).then(sucesso, error);
 
             function error(err) {
-                window.alert("Login ou senha incorreto");
+                Notification.error({message: "Login ou senha incorretos", title: 'Acesso'});
+                // ("Login ou senha incorreto");
             };
 
             function sucesso(res) {
-                console.log(res)
 
                 if (res.data.nome === undefined) {
-                    window.alert("Login ou senha incorreto");
+                    // growl.error("Login ou senha incorretos");debugger
+                    Notification.error({message: "Login e senha incorretos", title: 'Acesso', positionY: 'center', positionX: 'center'})
+                    // growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!"});
+                    // window.alert("Login ou senha incorreto");
                 } else {
-                    window.location.href = "/";
+                    Notification.success({message: "Logado com sucesso. Redirecionando ...", title : "Controle de Acesso"})
+                    setTimeout(function () {
+                      window.location.href = "/";
+                    }, 2000);
+
                 }
             };
 
         };
 
         this.logout = function() {
-          console.log("logout")
+            console.log("logout")
             $http.get('/api/users/logout').then(result, error);
 
             function result(res) {
@@ -50,11 +55,11 @@
             };
 
             function error(err) {
-
+              console.log(err);
             };
 
             $rootScope.usuarioLogado = null;
-            $location.path('/index.html#!/')
+            window.location.href = "/login.html";
         };
 
         this.verificarUsuario = function() {
@@ -74,15 +79,18 @@
         };
 
         this.testarPermissao = function() {
-            console.log($rootScope);
             if ($rootScope.logado === undefined) {
                 console.log("teste")
-                growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!"});
+                // growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!"});
                 // window.location.href = "/login.html"
                 $timeout(function() {}, 500);
 
             }
         };
+
+        this.init = function(view){
+          $rootScope.view = view;
+        }
     })
 
     login.controller('loginController', function($scope, usuariosService) {
@@ -92,13 +100,17 @@
     })
 
     app.controller('inicialController', function($scope, usuariosService) {
-        $scope.view = "inicial";
+        usuariosService("inicial");
     })
 
 
-    // Verificar automaticamente se o usuário está logaado
+    // Verificar automaticamente se o usuário está logado
     app.run(function($rootScope, $location, $timeout, $http, usuariosService) {
         usuariosService.verificarUsuario();
+
+        $rootScope.logout = function(){
+          usuariosService.logout();
+        };
     })
 
 
@@ -111,16 +123,12 @@
     // --------------------------------------------------- Controle de Cadastros --------------------------------------------
 
     // Controle do cadastro de cadastroCaracteristicas
-    app.controller('cadastroCaracteristica', function($scope, $rootScope, $http, usuariosService) {
+    app.controller('cadastroCaracteristica', function($scope, $http, usuariosService) {
 
         $scope.selecionado = false;
-        $scope.view = "cadastro";
+        usuariosService.init("cadastro");
 
         // usuariosService.testarPermissao();
-
-        $scope.logout = function() {
-            usuariosService.logout();
-        };
 
         $scope.submeterCadastro = function(file) {
             // $scope.url.image.filename = $scope.url.image.name;
