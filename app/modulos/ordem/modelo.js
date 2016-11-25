@@ -3,18 +3,18 @@ var Schema = moongose.Schema;
 
 
 var caracteristicaSchema = new Schema({
-    nome: {
-        type: String,
-        required: true
-    },
-    imagem: {
-        type: String,
-        require: true
-    },
-    _id: {
-        type: String,
-        require: true
-    }
+  nome: {
+      type: String,
+      required: true
+  },
+  imagem: {
+      type: String,
+      require: true
+  },
+  _id: {
+      type: String,
+      require: true
+  }
 });
 
 var ordemSchema = new Schema({
@@ -23,6 +23,10 @@ var ordemSchema = new Schema({
     required : true
   },
   insetoReferencia : {
+    type : String,
+    require : true
+  },
+  imagem : {
     type : String,
     require : true
   },

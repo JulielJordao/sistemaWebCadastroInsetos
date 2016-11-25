@@ -27,6 +27,29 @@
                         <li>
                             <a href="index.html#!/cadastroInsetos">Insetos</a>
                         </li>
+                        <li>
+                            <a href="index.html#!/cadastroOrdem">Ordem</a>
+                        </li>
+                        <!--                                        <li class="divider"></li>
+                                         <li class="dropdown-header">Nav header</li>
+                                         <li><a href="../../view/#">Separated link</a></li>
+                                         <li><a href="../../view/#">One more separated link</a></li>-->
+                    </ul>
+                </li>
+
+                <li class="dropdown" ng-class="{'active' : $root.view == 'gerenciar'}" ng-show="$root.logado !== false && $root.logado !== undefined">
+                    <a target="_blank" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gerenciar<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="index.html#!/gerenciarCaracteristicas">Características</a>
+                        </li>
+                        <li>
+                            <a href="index.html#!/gerenciarInsetos">Insetos</a>
+                        </li>
+                        <li>
+                            <a href="index.html#!/gerenciarOrdens">Insetos</a>
+                        </li>
                         <!--                                        <li class="divider"></li>
                                          <li class="dropdown-header">Nav header</li>
                                          <li><a href="../../view/#">Separated link</a></li>
@@ -44,14 +67,14 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="$root.logado === true && $root.logado !== undefined">
-                <li style="margin-top: 15px; color : green">Bem vindo,
-                    {{$root.user}}!</li>
-                <li style="border">
+                <li class="pull-right" style="border">
                     <a href="" style="color:green" ng-click="$root.logout()">
                         Logout
                         <span class="glyphicon glyphicon-log-in" style="color: green"></span>
                     </a>
                 </li>
+                <li class="pull-right" style="margin-top: 13px; color : gray">Bem vindo,
+                    {{$root.user}}!</li>
             </ul>
         </div>
     </div>

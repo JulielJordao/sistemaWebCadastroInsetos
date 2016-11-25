@@ -13,15 +13,13 @@ app.config(
 					}).when('/cadastroInsetos', {
 						templateUrl : 'cadastroInsetos.html',
 						controller : 'cadastroInsetos'
-					})
-//           .when('/solucao', {index2
-// 						templateUrl : 'cadastroSolucao.html'
-// 						// controller : 'CadSolucaoCtrl'
-// 					}).when('/planta#!/familia', {
-// 						templateUrl : 'modalFamilia.html',
-// 						controller : 'CadPlantaCtrl'
-// 					})
-          .otherwise({
+					}).when('/cadastroOrdem', {
+						templateUrl : 'cadastroOrdem.html',
+						controller : 'cadastroOrdem'
+					}).when('/gerenciarInsetos', {
+						templateUrl : 'gerenciarInsetos.html',
+						controller : 'cadastroOrdem'
+					}).otherwise({
 						templateUrl : 'paginaInicial.html',
 						controller : 'pageController'
 					});

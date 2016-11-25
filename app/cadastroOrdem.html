@@ -1,11 +1,11 @@
 <div class="row jumbotron" style="padding:0px; heigth:65px !important; padding-left: 20px !important;">
-    <h2>Cadastro de Insetos</h2>
+    <h2>Cadastro da Ordem de Insetos</h2>
 </div>
 <form class="" name="cadastroInsetoForm">
 
     <div class="col-sm-12" style="background-color:white; padding-bottom:10px">
         <div class="col-sm-7" style="padding-left:0px; margin-top: -6px;">
-            <p>Info: Insira uma imagem correspondente a ordem de insetos</p>
+            <p>Info: Insira uma imagem correspondente para visualização da ordem correspondente.</p>
             <form id="fileupload">
                 <div class="row fileupload-buttonbar">
                     <div class="col-lg-12">
@@ -26,21 +26,16 @@
                 <fieldset >
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="infoCadastro">Nome do Inseto</label>
-                            <input type="text" class="form-control" name="name" value="" ng-model="insetos.nome" ng-required="true">
+                            <label for="infoCadastro">Nome do Ordem</label>
+                            <input type="text" class="form-control" name="name" value="" ng-model="ordem.nome" ng-required="true">
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        <label for="associarOrdem">Associar a uma Ordem</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-maxlength="11" ng-model="insetos.ordem.nome" ng-disabled="true" ng-required="required">
-                            <span class="input-group-btn">
-                                <button class="glyphicon glyphicon-search btn btn-primary" type="button" data-toggle="modal" data-target="#modalAssociarOrdem" onclick="removerClasseInvalida()"></button>
-                            </span>
-
+                        <div class="form-group">
+                            <label for="infoCadastro">Inseto Referência</label>
+                            <input type="text" class="form-control" name="name" value="" ng-model="ordem.insetoReferencia" ng-required="true">
                         </div>
                     </div>
-
                     <div class="col-sm-12">
                         <hr>
                         <h4 style="text-align: center;">Listagem de Características Vinculadas</h4>
@@ -61,7 +56,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="x in insetos.caracteristicas">
+                                        <tr ng-repeat="x in ordem.caracteristicas">
                                             <td>{{x.nome}}</td>
                                             <td style="text-align: center;">
                                                 <a href="#" ng-click="removerLinhaCaracteristica(x)">
@@ -82,7 +77,6 @@
                     </div>
                 </div>
             </div>
-            <div ng-include="'view/modalOrdem.html'"></div>
-        </div>
+          </div>
     </div>
 </form>

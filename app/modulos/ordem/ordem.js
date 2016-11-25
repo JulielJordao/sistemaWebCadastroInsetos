@@ -13,7 +13,7 @@ var cadastrar = function(inseto, salvo, error){
 exports.cadastrar = cadastrar;
 
 var listar = function(quandoEncontrar, quandoDerErro){
-    Ordem.find().select({_id : true, nome : true, insetoReferencia : true}).exec(function(err, ordem){
+    Ordem.find().select().exec(function(err, ordem){
     if(err){
       quandoDerErro(err)
     } else {

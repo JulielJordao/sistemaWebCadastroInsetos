@@ -32,8 +32,8 @@
 
                 if (res.data.nome === undefined) {
                     // growl.error("Login ou senha incorretos");debugger
-                    Notification.error({message: "Login e senha incorretos", title: 'Acesso', positionY: 'center', positionX: 'center'})
-                    // growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!"});
+                    Notification.error({message: "Login ou senha incorretos", title: 'Acesso'})
+                    // growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!" , positionY: 'center', positionX: 'center'});
                     // window.alert("Login ou senha incorreto");
                 } else {
                     Notification.success({message: "Logado com sucesso. Redirecionando ...", title : "Controle de Acesso"})
@@ -81,9 +81,11 @@
         this.testarPermissao = function() {
             if ($rootScope.logado === undefined) {
                 console.log("teste")
-                // growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!"});
+                Notification.error({ message: "Não possui permissão de acesso, favor logar! Redirecionado login ... ", title: "Controle de Acesso"});
                 // window.location.href = "/login.html"
-                $timeout(function() {}, 500);
+                $timeout(function() {
+                  window.location.href = "/login.html"
+                }, 2000);
 
             }
         };
@@ -123,12 +125,12 @@
     // --------------------------------------------------- Controle de Cadastros --------------------------------------------
 
     // Controle do cadastro de cadastroCaracteristicas
-    app.controller('cadastroCaracteristica', function($scope, $http, usuariosService) {
+    app.controller('cadastroCaracteristica', function($scope, $http, usuariosService, Notification) {
 
         $scope.selecionado = false;
         usuariosService.init("cadastro");
 
-        // usuariosService.testarPermissao();
+        usuariosService.testarPermissao();
 
         $scope.submeterCadastro = function(file) {
             // $scope.url.image.filename = $scope.url.image.name;
@@ -153,7 +155,12 @@
 
                 function sucesso(resultado) {
                     console.log(resultado);
-                    window.alert("Cadastro com Sucesso")
+                    Notification.success({message : "Cadastro com Sucesso", title: "Insetos"})
+
+                    setTimeout(function () {
+                      window.location.href = "/";
+                    }, 2000);
+
                     $scope.caracteristica.nomCaracteristica = "";
                     $scope.url.image = undefined;
                     $scope.cadastroCaracteristicaForm.$pristine = true;

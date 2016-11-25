@@ -32,7 +32,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="row" ng-show="ordemCadastroVisivel==true" style="margin-bottom: 10px;">
+                <!-- <div class="row" ng-show="ordemCadastroVisivel==true" style="margin-bottom: 10px;">
                     <div class="col-sm-12">
                         <form name="ordemForm">
                             <div class="cadastro">
@@ -60,15 +60,17 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="modal-footer">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="pull-right">
-                        <button type="button" class="btn btn-primary" ng-click="mudarVisibilidadeCadastro()">
-                            <i class="novoCadastro"></i>Novo Cadastro</span>
+                      <a href="index.html#!/cadastroOrdem">
+                        <button type="button" class="btn btn-primary">
+                            <i class="novoCadastro"></i>Cadastrar Ordem</span>
                     </button>
+                  </a>
                     <button type="button" class="btn btn-primary" ng-disabled="!isSelecionado()" ng-click="associarOrdem()" data-dismiss="modal">
                         <i class="salvar"></i>Confirmar</span>
                 </button>

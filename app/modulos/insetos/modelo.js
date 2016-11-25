@@ -1,22 +1,23 @@
 var moongose = require('mongoose');
+
 var Schema = moongose.Schema;
 
 var caracteristicaSchema = new Schema({
-    nome: {
-        type: String,
-        required: true
-    },
-    imagem: {
-        type: String,
-        require: true
-    },
-    _id: {
-        type: String,
-        require: true
-    }
+  nome: {
+      type: String,
+      required: true
+  },
+  imagem: {
+      type: String,
+      require: true
+  },
+  _id: {
+      type: String,
+      require: true
+  }
 });
-
-var ordemShema = new Schema({
+//
+var ordem = new Schema({
   nome : {
       type: String,
       required: true
@@ -44,7 +45,11 @@ var insetoSchema = new Schema({
       type: Number
     },
     caracteristicas: [caracteristicaSchema],
-    ordem: [ordemShema]
+    ordem: {
+      type : ordem,
+      required : true
+    }
+
 });
 
 var Inseto = moongose.model('inseto', insetoSchema);

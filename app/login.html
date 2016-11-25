@@ -13,7 +13,8 @@
 <body>
   <!-- -------------------------------------- Controle da Aplicação ------------------------------------------ -->
   <div class="container"  ng-controller="loginController">
-    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="jumbotron" style="min-height:40px;"><h2 style="margin-left:23%; margin-rigth:20%; color:gray;">Sistema para Cadastro e Pesquisa de Insetos</h2></div>
+    <div id="loginbox"  class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
       <div class="panel panel-info" >
         <div class="panel-heading">
           <div class="panel-title">Acessar:</div>
@@ -33,12 +34,12 @@
               ng-model="usuario.password" ng-required="true">
             </div>
             <div class="col-sm-12" style="padding-right:0px; padding-left: 0px">
-              <div class="col-sm-4 checkbox" style="padding-left: 0px;">
+              <!-- <div class="col-sm-4 checkbox" style="padding-left: 0px;">
                 <label>
                   <input id="login-remember" type="checkbox" name="remember" value="1"
                           >Lembrar-me</input>
                 </label>
-              </div>
+              </div> -->
               <!-- Button -->
               <div class="pull-right" style="padding-right: 0px;">
                 <button type="button" class="btn btn-success" ng-click="logar(usuario)" ng-disabled="loginForm.$invalid || loginForm.$pristine">
@@ -50,7 +51,6 @@
         </form>
       </div>
     </div>
-    <ng-view=""></ng-view>
     <div id="signupbox" style="display:none; margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -109,7 +109,9 @@
         </div>
       </div>
     </div>
+
   </div>
+  <!-- <div class="jumbotron container" style="min-height:200px;"><h2 style="margin-left:23%; margin-rigth:20%;"></h2></div> -->
 </body>
 <script src="js/libs/ui-bootstrap-tpls-2.2.0.min.js"></script>
 <script src="js/angular-notification/angular-ui-notification.min.js"></script>

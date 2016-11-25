@@ -40,6 +40,7 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
         function result(res) {
             console.log(res.data);
             $scope.insetos.imagem = res.data.code;
+              console.log($scope.insetos)
             $http.post('api/insetos/cadastro', $scope.insetos).then(sucesso, error);
 
             function sucesso(resultado) {

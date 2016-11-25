@@ -60,8 +60,8 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-// mongoose.connect('mongodb://teste:teste@ds017165.mlab.com:17165/sistema_faculdade');
-mongoose.connect('mongodb://localhost:27017');
+mongoose.connect('mongodb://teste:teste@ds017165.mlab.com:17165/sistema_faculdade');
+// mongoose.connect('mongodb://localhost:27017');
 
 app.set('port', process.env.PORT || 3000);
 
