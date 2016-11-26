@@ -35,3 +35,15 @@ var findByNome = function(nome, quandoEncontrar, quandoDerErro){
 };
 
 exports.findByNome = findByNome;
+
+var deletarRegistro = function(codigo, quandoEncontrar, quandoDerErro){
+    Ordem.findOne({_id : codigo}).remove().exec(function(err, ordem){
+    if(err){
+      quandoDerErro(err)
+    } else {
+      quandoEncontrar(ordem)
+    }
+  });
+};
+
+exports.deletarRegistro = deletarRegistro;

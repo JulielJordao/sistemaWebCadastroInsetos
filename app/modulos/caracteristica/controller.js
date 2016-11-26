@@ -44,3 +44,15 @@ var findByNome = function(req, res){
 };
 
 exports.findByNome = findByNome;
+
+var deletarRegistro = function(codigo, quandoEncontrar, quandoDerErro){
+    caracteristicas.findOne({_id : codigo}).remove().exec(function(err, caracteristica){
+    if(err){
+      quandoDerErro(err)
+    } else {
+      quandoEncontrar(caracteristica)
+    }
+  });
+};
+
+exports.deletarRegistro = deletarRegistro;

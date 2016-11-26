@@ -13,11 +13,11 @@ var cadastrar = function(inseto, salvo, error){
 exports.cadastrar = cadastrar;
 
 var listar = function(quandoEncontrar, quandoDerErro){
-    Insetos.find().select().exec(function(err, caracteristica){
+    Insetos.find().select().exec(function(err, insetos){
     if(err){
       quandoDerErro(err)
     } else {
-      quandoEncontrar(caracteristica)
+      quandoEncontrar(insetos)
     }
   });
 };
@@ -35,3 +35,15 @@ var findByNome = function(nome, quandoEncontrar, quandoDerErro){
 };
 
 exports.findByNome = findByNome;
+
+var deletarRegistro = function(codigo, quandoEncontrar, quandoDerErro){
+    Insetos.findOne({_id : codigo}).remove().exec(function(err, insetos){
+    if(err){
+      quandoDerErro(err)
+    } else {
+      quandoEncontrar(insetos)
+    }
+  });
+};
+
+exports.deletarRegistro = deletarRegistro;

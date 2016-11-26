@@ -32,10 +32,11 @@ var listar = function(req, res){
 exports.listar = listar;
 
 var findByNome = function(req, res){
-    Insetos.findByNome(req.body.nome, sucesso, error);
+    Insetos.findByNome(req.params.nome, sucesso, error);
 
     function sucesso(resposta){
-      res.status(200).json({nome : resposta.nome, imagem : resposta.imagem});
+      res.status(200).json(resposta);
+      // res.status(200).json({nome : resposta.nome, imagem : resposta.imagem});
     };
 
     function error(err){
@@ -44,3 +45,21 @@ var findByNome = function(req, res){
 };
 
 exports.findByNome = findByNome;
+
+
+var deletarRegistro = function(req, res){
+  
+    console.log(req.params.id);
+
+    Insetos.deletarRegistro(req.params.id, sucesso, error);
+
+    function sucesso(resposta){
+      res.status(200).json(resposta);
+    };
+
+    function error(err){
+      res.status(400).json(err);
+    };
+};
+
+exports.deletarRegistro = deletarRegistro;

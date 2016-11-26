@@ -35,3 +35,18 @@ var findByNome = function(nome, quandoEncontrar, quandoDerErro){
 };
 
 exports.findByNome = findByNome;
+
+var deletarRegistro = function(req, res){
+
+    Ordem.deletarRegistro(req.params.id, sucesso, error);
+
+    function sucesso(resposta){
+      res.status(200).json(resposta);
+    };
+
+    function error(err){
+      res.status(400).json(err);
+    };
+};
+
+exports.deletarRegistro = deletarRegistro;

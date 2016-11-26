@@ -13,6 +13,10 @@ app.post('/cadastro', function(req,res){
 
 app.get('/listar' , controleInsetos.listar);
 
+app.get('/listar/nome/:nome', controleInsetos.findByNome);
+
+app.get('/delete/:id', controleInsetos.deletarRegistro);
+
 // ----------------------------------------------- Rotas de Características ----------------------------------------------
 
 module.exports = app;

@@ -5,7 +5,7 @@
     <div class="well hidden well-sm clearfix" data-target="tabela1">
         <p class="d-inline-block">
             <strong class="counterChecks">0</strong>
-            itens selecionados
+            Itens selecionados
         </p>
         <div class="actions">
             <div class="btn-group">
@@ -20,10 +20,10 @@
         <thead>
             <tr>
                 <th class="txt-center"><input type="checkbox"></th>
-                <th>#</th>
-                <th class="hidden-xs">Nome</th>
+                <th>Nome</th>
                 <th class="hidden-xs">Ordem</th>
-                <th>Data Cadastro</th>
+                <th class="hidden-xs">Data Cadastro</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@
     </table>
 </div>
 <div class="col-sm-12 ">
-  <button class="btn btn-primary pull-right" type="button" name="button" style="margin-left:5px">Cadastrar Novo Registro</buttom>
-  <button class="btn btn-danger pull-right" type="button" name="button">Deletar</button>
+  <button class="btn btn-primary pull-right" type="button" name="button" style="margin-left:5px" ng-disabled="true">Cadastrar Novo Registro</buttom>
+  <button class="btn btn-danger pull-right" type="button" name="button" ng-disabled="true">Deletar</button>
 
 </div>

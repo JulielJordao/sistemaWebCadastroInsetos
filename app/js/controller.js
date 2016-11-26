@@ -18,7 +18,7 @@ app.config(
 						controller : 'cadastroOrdem'
 					}).when('/gerenciarInsetos', {
 						templateUrl : 'gerenciarInsetos.html',
-						controller : 'cadastroOrdem'
+						controller : 'gerenciarInsetos'
 					}).otherwise({
 						templateUrl : 'paginaInicial.html',
 						controller : 'pageController'

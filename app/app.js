@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    var app = angular.module('myApp', ['ngRoute', 'ui-notification', 'ui.bootstrap']);
+    var app = angular.module('myApp', ['ngRoute', 'ui-notification', 'ui.bootstrap', 'ngMaterial']);
 
     var login = angular.module('loginApp', ['myApp']);
 
@@ -24,7 +24,10 @@
             }).then(sucesso, error);
 
             function error(err) {
-                Notification.error({message: "Login ou senha incorretos", title: 'Acesso'});
+                Notification.error({
+                    message: "Login ou senha incorretos",
+                    title: 'Acesso'
+                });
                 // ("Login ou senha incorreto");
             };
 
@@ -32,13 +35,19 @@
 
                 if (res.data.nome === undefined) {
                     // growl.error("Login ou senha incorretos");debugger
-                    Notification.error({message: "Login ou senha incorretos", title: 'Acesso'})
-                    // growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!" , positionY: 'center', positionX: 'center'});
-                    // window.alert("Login ou senha incorreto");
+                    Notification.error({
+                            message: "Login ou senha incorretos",
+                            title: 'Acesso'
+                        })
+                        // growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!" , positionY: 'center', positionX: 'center'});
+                        // window.alert("Login ou senha incorreto");
                 } else {
-                    Notification.success({message: "Logado com sucesso. Redirecionando ...", title : "Controle de Acesso"})
-                    setTimeout(function () {
-                      window.location.href = "/";
+                    Notification.success({
+                        message: "Logado com sucesso. Redirecionando ...",
+                        title: "Controle de Acesso"
+                    })
+                    setTimeout(function() {
+                        window.location.href = "/";
                     }, 2000);
 
                 }
@@ -55,7 +64,7 @@
             };
 
             function error(err) {
-              console.log(err);
+                console.log(err);
             };
 
             $rootScope.usuarioLogado = null;
@@ -81,17 +90,20 @@
         this.testarPermissao = function() {
             if ($rootScope.logado === undefined) {
                 console.log("teste")
-                Notification.error({ message: "Não possui permissão de acesso, favor logar! Redirecionado login ... ", title: "Controle de Acesso"});
+                Notification.error({
+                    message: "Não possui permissão de acesso, favor logar! Redirecionado login ... ",
+                    title: "Controle de Acesso"
+                });
                 // window.location.href = "/login.html"
                 $timeout(function() {
-                  window.location.href = "/login.html"
+                    window.location.href = "/login.html"
                 }, 2000);
 
             }
         };
 
-        this.init = function(view){
-          $rootScope.view = view;
+        this.init = function(view) {
+            $rootScope.view = view;
         }
     })
 
@@ -110,14 +122,91 @@
     app.run(function($rootScope, $location, $timeout, $http, usuariosService) {
         usuariosService.verificarUsuario();
 
-        $rootScope.logout = function(){
-          usuariosService.logout();
+        $rootScope.logout = function() {
+            usuariosService.logout();
         };
     })
 
 
 
     // --------------------------------------------------- Controle de Acesso --------------------------------------------
+
+    // ---------------------------------------------------------------------------------------------------
+    // --------------------------------------------------- CRUD Tela gerencial --------------------------------------------
+    app.service('crudService', function($rootScope, $location, $timeout, Notification, $http) {
+
+        /*
+         *   Titulo - variavel da tela gerencial
+         *   route  - rota parcial do back-end
+         *   registro - entidade ou array a ser deletada
+         */
+
+        this.deletarRegistro = function(titulo, route, registro) {
+
+            var testaArray = false,
+                x,
+                quantError = 0,
+                quantSuccess = 0;
+
+            if (registro.length !== undefined) {
+                testaArray = true;
+            }
+
+            if (testaArray === false) {
+                $http.get(route + "/" + registro._id).then(result, error);
+            } else {
+                for (x in registro) {
+                    $http.get(route + "/" + registro._id).then(result, error);
+                }
+            }
+
+            function result(res) {
+                quantSuccess++;
+            };
+
+            function error(err) {
+                quantError++;
+                console.log(err);
+            };
+
+            if (quantError !== 0) {
+                Notification.error({
+                    title: titulo,
+                    message: "Ocorreu um erro ao Deletar Registro!"
+                })
+            } else {
+                if (quantSuccess === 1) {
+                    Notification.success({
+                        title: titulo,
+                        message: "Registros deletado com sucesso!"
+                    })
+                } else {
+                    Notification.success({
+                        title: titulo,
+                        message: "Registo deletado com sucesso = " + quantSuccess + "!"
+                    })
+                }
+            }
+        };
+
+        this.listarRegistros = function(route){
+          
+          $http.get(route+"/listar").then(sucesso, error);
+
+          function sucesso(res){
+            return res.data;
+          }
+
+          function error(err){
+            return false;
+          }
+        };
+    });
+
+
+    // --------------------------------------------------- FIM CRUD Tela gerencial --------------------------------------------
+    // ---------------------------------------------------------------------------------------------------
+
 
 
 
@@ -155,10 +244,13 @@
 
                 function sucesso(resultado) {
                     console.log(resultado);
-                    Notification.success({message : "Cadastro com Sucesso", title: "Insetos"})
+                    Notification.success({
+                        message: "Cadastro com Sucesso",
+                        title: "Insetos"
+                    })
 
-                    setTimeout(function () {
-                      window.location.href = "/";
+                    setTimeout(function() {
+                        window.location.href = "/";
                     }, 2000);
 
                     $scope.caracteristica.nomCaracteristica = "";
