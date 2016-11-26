@@ -9,6 +9,10 @@ var caracteristicaSchema = new Schema({
     imagem : {
       type : String,
       require : true
+    },
+    dataCadastro: {
+        type: Date,
+        default: Date.now
     }
 });
 

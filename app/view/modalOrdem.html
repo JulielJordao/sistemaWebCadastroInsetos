@@ -1,38 +1,36 @@
-<div id="modalAssociarOrdem" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Asociar ordem:</h4>
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()">&times;</button>
+        <h4 class="modal-title">Asociar ordem:</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form" class="compact-form" name="ordemForm">
+            <div class="row">
+                <div class="col-sm-12">
+                    <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Qual ordem?"/>
+                </div>
+                <div class="col-sm-12" style="margin-top: 10px;">
+                    <table ng-show="listOrdem.length > 0" class="table table-striped">
+                        <tr>
+                            <th></th>
+                            <th>
+                                <a href="" ng-click="ordenarPor('codFamilia')">Nome</a>
+                            </th>
+                            <th>
+                                <a href="" ng-click="ordenarPor('nome')">Inseto de Referência</a>
+                            </th>
+                        </tr>
+                        <!-- | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao"> -->
+                        <tr ng-repeat="x in listOrdem | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
+                            <td><input type="checkbox" ng-model="x.selecionado" ng-init="x.selecionado=false" ng-click="mudarSelecionados(x)" ng-disabled="isSelecionado() && x.selecionado===false"/></td>
+                            <td>{{x.nome}}</td>
+                            <td>{{x.insetoReferencia}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            <div class="modal-body">
-                <form role="form" class="compact-form" name="ordemForm">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Qual ordem?"/>
-                        </div>
-                        <div class="col-sm-12" style="margin-top: 10px;">
-                            <table ng-show="listOrdem.length > 0" class="table table-striped">
-                                <tr>
-                                    <th></th>
-                                    <th>
-                                        <a href="" ng-click="ordenarPor('codFamilia')">Nome</a>
-                                    </th>
-                                    <th>
-                                        <a href="" ng-click="ordenarPor('nome')">Inseto de Referência</a>
-                                    </th>
-                                </tr>
-                                <!-- | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao"> -->
-                                <tr ng-repeat="x in listOrdem | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" >
-                                    <td><input type="checkbox" ng-model="x.selecionado" ng-init="x.selecionado=false" ng-click="mudarSelecionados(x)" ng-disabled="isSelecionado() && x.selecionado===false"/></td>
-                                    <td>{{x.nome}}</td>
-                                    <td>{{x.insetoReferencia}}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </form>
-                <!-- <div class="row" ng-show="ordemCadastroVisivel==true" style="margin-bottom: 10px;">
+        </form>
+        <!-- <div class="row" ng-show="ordemCadastroVisivel==true" style="margin-bottom: 10px;">
                     <div class="col-sm-12">
                         <form name="ordemForm">
                             <div class="cadastro">
@@ -61,19 +59,22 @@
                     </div>
                 </div>
             </div> -->
-        </div>
-        <div class="modal-footer">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="pull-right">
-                      <a href="index.html#!/cadastroOrdem">
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    <a href="index.html#!/cadastroOrdem">
                         <button type="button" class="btn btn-primary">
-                            <i class="novoCadastro"></i>Cadastrar Ordem</span>
+                            <span>
+                                <i class="novoCadastro"></i>Cadastrar Ordem</span>
+                        </button>
+                    </a>
+                    <button type="button" class="btn btn-primary" ng-disabled="!isSelecionado()" ng-click="associarOrdem()">
+                        <span>
+                            <i class="salvar"></i>Confirmar</span>
                     </button>
-                  </a>
-                    <button type="button" class="btn btn-primary" ng-disabled="!isSelecionado()" ng-click="associarOrdem()" data-dismiss="modal">
-                        <i class="salvar"></i>Confirmar</span>
-                </button>
+                </div>
             </div>
         </div>
     </div>

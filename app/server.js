@@ -9,7 +9,7 @@ const app = express();
 const mongoose = require('mongoose');
 
 // Envio de arquivos
-const multer  = require('multer');
+const multer = require('multer');
 
 // Criar um corpo na requição, métodos do tipo post no app
 const bodyParser = require('body-parser');
@@ -37,10 +37,12 @@ var rotasOrdem = require('./routes/ordem')
 app.use(session({
     resave: false, //não salve a sessão se ela não for modificada
     saveUninitialized: false, //não crie sessão até alguma informação ser armazenada
-    name : "COOKIE_NAME",
+    name: "COOKIE_NAME",
     secret: "COOKIE_PASS",
     // store : sessionStore,
-    cookie : {maxAge : (60000 * 24 * 30)}
+    cookie: {
+        maxAge: (60000 * 24 * 30)
+    }
 }));
 
 var logado = false;
@@ -48,17 +50,24 @@ var usuario = null;
 
 // Configuração do multer para upload de imagens
 const storage = multer.diskStorage({
-  destination: 'uploads/',
-  filename: function (req, file, cb) {
-    crypto.pseudoRandomBytes(16, function (err, raw) { // Criptografia dos dados
-      if (err) return cb(err)
-      // Salvo com o nome original
-      cb(null, raw.toString('hex') + path.extname(file.originalname))
-    })
-  }
+    destination: 'uploads/',
+    filename: function(req, file, cb) {
+        if (req.session.user !== undefined) {
+            crypto.pseudoRandomBytes(16, function(err, raw) {
+                // Criptografia dos dados
+                if (err) return cb(err)
+                    // Salvo com o nome original
+                cb(null, raw.toString('hex') + path.extname(file.originalname));
+            })
+        } else {
+            return file;
+        }
+    }
 });
 
-var upload = multer({ storage: storage });
+var upload = multer({
+    storage: storage
+});
 
 mongoose.connect('mongodb://teste:teste@ds017165.mlab.com:17165/sistema_faculdade');
 // mongoose.connect('mongodb://localhost:27017');
@@ -85,10 +94,27 @@ app.get('/', function(req, res) {
     res.redirect('login.html');
 });
 
-app.post('/api/uploads', upload.single('image'), function(req,res){
-    res.json({ code: req.file.filename })
+// function(req, res) {
+//     if (req.session.user !== undefined) {
+//         console.log(req.file);
+//         console.log(req.data);
+//
+//         // setTimeout(function () {
+//         //   testar(req, res);
+//         // }, 200);
+//         res.json({code : "Erro"})
+//
+//     } else {
+//         res.json({
+//             error: 'Usuário não logado'
+//         })
+//     }
+app.post('/api/uploads', upload.single('image'), function(req, res) {
+    res.json({
+        code: req.file.filename
+    })
 });
 
-app.listen(app.get('port'), function(){
-  console.log("Express iniciou em localhost:3000");
+app.listen(app.get('port'), function() {
+    console.log("Express iniciou em localhost:3000");
 });

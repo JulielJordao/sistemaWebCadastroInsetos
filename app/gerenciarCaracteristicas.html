@@ -1,5 +1,5 @@
 <div style="background-color:gray; margin-top:0px; padding-top:0px;height: 30px;">
-    <p style="color: white; padding-top:5px;">Gerenciar > Insetos</p>
+    <p style="color: white; padding-top:5px;">Gerenciar > Características</p>
 </div>
 <div class="col-sm-4" style="margin-top:10px" style="background-color: #80808033;">
     <fieldset style="border: 1px groove #ddd !important;">
@@ -16,7 +16,7 @@
 </div>
 <div class="row ">
     <div class="col-sm-12">
-        <h2 style="text-align: center;">Tabela de Insetos Cadastrados</h2>
+        <h2 style="text-align: center;">Tabela de Caraterísticas</h2>
     </div>
 </div>
 
@@ -27,18 +27,16 @@
             <tr>
                 <th class="txt-center"><input type="checkbox" ng-click="isEntidadeSelecionada()"></th>
                 <th>Nome</th>
-                <th class="">Ordem</th>
                 <th class="hidden-xs">Data Cadastro</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="x in listInsetos | filter:criterioDeBusca " ng-click="setSelected(x)">
+            <tr ng-repeat="x in listCaracteristicas | filter:criterioDeBusca " ng-click="setSelected(x)">
                 <td class="txt-center" ><input type="checkbox" ng-model="x.selecionado"></td>
                 <td class="">
                     <a href="" title="">{{x.nome}}</a>
                 </td>
-                <td class="">{{x.ordem.nome}}</td>
                 <td class="hidden-xs">{{x.dataCadastro}}</td>
                 <td class="">
                     <button type="button" name="button" ng-click="imagemModal()">
@@ -56,6 +54,6 @@
     </table>
 </div>
 <div class="col-sm-12 ">
-    <button class="btn btn-primary pull-right" type="button" name="button" style="margin-left:5px;margin-bottom:10px;" ng-click="acessarCadastro()">Cadastrar Novo Registro</buttom>
+    <button class="btn btn-primary pull-right" type="button" name="button" style="margin-left:5px; margin-bottom:10px;" ng-click="acessarCadastro()">Cadastrar Novo Registro</buttom>
     <button class="btn btn-danger pull-right" type="button" name="button" style="margin-bottom:10px;" ng-disabled="!isEntidadeSelecionada()" ng-click="removerRegistro(true)">Deletar</button>
 </div>

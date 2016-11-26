@@ -1,6 +1,6 @@
 var app = angular.module('myApp');
 
-app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosService, Notification) {
+app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosService, Notification, crudService) {
 
     $scope.insetos = {};
     $scope.insetos.ordem = {};
@@ -9,14 +9,17 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
     $scope.selecionado = false;
     $scope.view = "cadastro";
 
+    var rotaInseto = "api/insetos";
+    var rotaCaracteristicas = "api/caracteristicas";
+
     usuariosService.init("cadastro")
     $scope.listCaracteristicas = [];
 
     usuariosService.testarPermissao();
-    carregarOrdem();
+
 
     $scope.logout = function() {
-      console.log("aqui")
+        console.log("aqui")
         usuariosService.logout();
     };
 
@@ -40,16 +43,19 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
         function result(res) {
             console.log(res.data);
             $scope.insetos.imagem = res.data.code;
-              console.log($scope.insetos)
+            console.log($scope.insetos)
             $http.post('api/insetos/cadastro', $scope.insetos).then(sucesso, error);
 
             function sucesso(resultado) {
                 console.log(resultado);
-                Notification.success({message: "Cadastrado com sucesso", title : "Insetos"})
+                Notification.success({
+                    message: "Cadastrado com sucesso!",
+                    title: "Insetos"
+                })
             };
 
             function error(err) {
-              console.log(err)
+                console.log(err)
             }
         };
 
@@ -80,6 +86,37 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
     $scope.abrirCaracteristicas = function() {
         $scope.showModal();
     }
+
+    $scope.showModalOrdem = function() {
+        $scope.opts = {
+            backdrop: false,
+            backdropClick: true,
+            dialogFade: false,
+            keyboard: true,
+            templateUrl: 'view/modalOrdem.html',
+            controller: modalOrdemCtrl,
+            resolve: {} // empty storage
+        };
+
+        // $scope.opts.resolve.item = function() {
+        //     return $scope
+        // };
+
+        $scope.opts.resolve.scope = function() {
+            return $scope
+        };
+
+        var modalInstance = $uibModal.open($scope.opts);
+
+        modalInstance.result.then(function() {
+            //on ok button press
+        }, function() {
+            // $scope.showModal();
+
+            //on cancel button press
+            console.log("Modal Closed");
+        });
+    };
 
     $scope.showModal = function() {
 
@@ -134,6 +171,24 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
     //     }
     // };
 
+});
+
+var modalOrdemCtrl = function($scope, $uibModalInstance, $http, $uibModal, $timeout, scope) {
+
+    carregarOrdem();
+
+    function carregarOrdem() {
+        $http.get('/api/ordem/listar').then(result, error);
+
+        function result(res) {
+            $scope.listOrdem = res.data;
+        };
+
+        function error(err) {
+
+        };
+    };
+
     // -------------------------------------------------------------------------------------------
     // ------------------------------ Funções relacionadas ao cadastro de ordem de insetos -------
     // -------------------------------------------------------------------------------------------
@@ -143,47 +198,33 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
         $scope.criterioDeOrdenacao = campo;
         $scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
     };
-
-    function carregarOrdem() {
-        $http.get('/api/ordem/listar').then(result, error);
-
-        function result(res) {
-            $scope.listOrdem = res.data;
-            console.log($scope.listOrdem);
-        };
-
-        function error(err) {
-            console.log(err);
-        };
-    };
-
-
-
-    $scope.adicionarOrdem = function(entity) {
-        $http.post('api/ordem/cadastro', entity).then(result, error);
-
-        function result(res) {
-            $scope.ordem = {};
-            carregarOrdem();
-            console.log(res);
-        };
-
-        function error(err) {
-            console.log(err)
-        };
-    };
+    //
+    // $scope.adicionarOrdem = function(entity) {
+    //     $http.post('api/ordem/cadastro', entity).then(result, error);
+    //
+    //     function result(res) {
+    //         $scope.ordem = {};
+    //         carregarOrdem();
+    //         console.log(res);
+    //     };
+    //
+    //     function error(err) {
+    //         console.log(err)
+    //     };
+    // };
 
     // Insere no modelo da tela principal
-    $scope.associarOrdem = function(close) {
+    $scope.associarOrdem = function() {
         var x = 0;
         console.log($scope);
         for (x in $scope.listOrdem) {
             if ($scope.listOrdem[x].selecionado === true) {
-                $scope.insetos.ordem = $scope.listOrdem[x];
+                scope.insetos.ordem = $scope.listOrdem[x];
                 // close();
-                console.log("encontrou")
+                console.log(scope.insetos)
             };
         };
+        $scope.close();
     };
 
     $scope.isSelecionado = function() {
@@ -198,11 +239,19 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
         }
     }
 
+    $scope.close = function() {
+        $uibModalInstance.close();
+    };
+
+
     // -------------------------------------------------------------------------------------------
     // ---------------------- Fim das Funções relacionadas ao cadastro de ordem de insetos -------
     // -------------------------------------------------------------------------------------------
 
-});
+
+
+};
+
 
 var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibModal, $timeout, scope) {
 
@@ -272,7 +321,7 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
             dialogFade: false,
             keyboard: true,
             templateUrl: 'view/modalImagem.html',
-            controller: ModalImagemCtrl,
+            controller: modalImagemCtrl,
             resolve: {} // empty storage
         };
 
@@ -323,14 +372,14 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
     // Carrega qual vai ser a imagem a ser renderizada
     $scope.imagemModal = function() {
         var x = 0;
-        $timeout(function () {
-          for (x in $scope.caracteristicas) {
-              if ($scope.caracteristicas[x]._id === $scope.idSelectedCaracteristicas) {
-                  $scope.imagemCaracteristica = $scope.caracteristicas[x].imagem;
-                  $scope.showModal();
-                  break;
-              }
-          };
+        $timeout(function() {
+            for (x in $scope.caracteristicas) {
+                if ($scope.caracteristicas[x]._id === $scope.idSelectedCaracteristicas) {
+                    $scope.imagemCaracteristica = $scope.caracteristicas[x].imagem;
+                    $scope.showModal();
+                    break;
+                }
+            };
         }, 100);
     };
 
@@ -351,8 +400,8 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
     };
 };
 
-var ModalImagemCtrl = function($scope, $uibModalInstance, $uibModal, item) {
-    $scope.imagemCaracteristica = item.name;
+var modalImagemCtrl = function ($scope, $uibModalInstance, $uibModal, item) {
+    $scope.imagem = item.name;
 
     $scope.ok = function() {
         $uibModalInstance.close();

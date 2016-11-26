@@ -16,10 +16,28 @@ app.config(
 					}).when('/cadastroOrdem', {
 						templateUrl : 'cadastroOrdem.html',
 						controller : 'cadastroOrdem'
+					}).when('/cadastroCaracteristicas/:id', {
+						templateUrl : 'cadastroCaracteristicas.html',
+						controller : 'cadastroCaracteristica'
+					}).when('/cadastroInsetos/:id', {
+						templateUrl : 'cadastroInsetos.html',
+						controller : 'cadastroInsetos'
+					}).when('/cadastroOrdem/:id', {
+						templateUrl : 'cadastroOrdem.html',
+						controller : 'cadastroOrdem'
 					}).when('/gerenciarInsetos', {
 						templateUrl : 'gerenciarInsetos.html',
 						controller : 'gerenciarInsetos'
-					}).otherwise({
+					}).when('/gerenciarCaracteristicas',{
+            templateUrl : 'gerenciarCaracteristicas.html',
+						controller : 'gerenciarCaracteristicas'
+          }).when('/gerenciarOrdem',{
+            templateUrl : 'gerenciarOrdem.html',
+						controller : 'gerenciarOrdem'
+          }).when('/pesquisar',{
+            templateUrl : 'pesquisar.html',
+						controller : 'pesquisarCtrl'
+          }).otherwise({
 						templateUrl : 'paginaInicial.html',
 						controller : 'pageController'
 					});

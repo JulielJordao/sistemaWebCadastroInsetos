@@ -36,17 +36,26 @@ var findByNome = function(nome, quandoEncontrar, quandoDerErro){
 
 exports.findByNome = findByNome;
 
-var deletarRegistro = function(req, res){
+var findById = function(id, quandoEncontrar, quandoDerErro){
+  Caracteristicas.findOne({_id : id}).exec(function(err, valor){
+    if(err){
+      quandoDerErro(err);
+    } else if(valor){
+      quandoEncontrar(valor);
+    }
+  });
+};
 
-    Ordem.deletarRegistro(req.params.id, sucesso, error);
+exports.findById = findById;
 
-    function sucesso(resposta){
-      res.status(200).json(resposta);
-    };
-
-    function error(err){
-      res.status(400).json(err);
-    };
+var deletarRegistro = function(codigo, quandoEncontrar, quandoDerErro){
+    Caracteristicas.findOne({_id : codigo}).remove().exec(function(err, caracteristica){
+    if(err){
+      quandoDerErro(err)
+    } else {
+      quandoEncontrar(caracteristica)
+    }
+  });
 };
 
 exports.deletarRegistro = deletarRegistro;

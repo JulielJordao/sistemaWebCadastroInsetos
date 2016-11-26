@@ -30,6 +30,10 @@ var ordemSchema = new Schema({
     type : String,
     require : true
   },
+  dataCadastro: {
+      type: Date,
+      default: Date.now
+  },
   caracteristicas : [caracteristicaSchema]
 });
 

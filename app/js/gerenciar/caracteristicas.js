@@ -1,6 +1,6 @@
 var app = angular.module('myApp');
 
-app.controller('gerenciarInsetos',
+app.controller('gerenciarCaracteristicas',
 
     function($scope, $http, $uibModal, $rootScope, usuariosService, Notification, $mdDialog, crudService) {
 
@@ -8,28 +8,29 @@ app.controller('gerenciarInsetos',
 
         $scope.selecionado = false;
 
-        var rotaInseto = "/api/insetos";
+        var rotaCaracteristicas = "/api/caracteristicas";
         //  --------------------- Funções padrões ----------------------------
         // -------------------------------------------------------------------
 
-        $scope.listInsetos = [];
-        $scope.insetoSelecionado = {};
-
-        function callbackListar(res) {
-            if (res.data !== undefined) {
-                $scope.listInsetos = res.data;
-            }
-        };
+        $scope.listCaracteristicas = [];
+        $scope.caracteristicaSelecionado = {};
 
         setTimeout(function () {
           usuariosService.testarPermissao();
         }, 300);
 
+
+        function callbackListar(res) {
+            if (res.data !== undefined) {
+                $scope.listCaracteristicas = res.data;
+            }
+        };
+
         $scope.isEntidadeSelecionada = function() {
             var x,
                 cont = 0;
-            for (x in $scope.listInsetos) {
-                if ($scope.listInsetos[x].selecionado === true) {
+            for (x in $scope.listCaracteristicas) {
+                if ($scope.listCaracteristicas[x].selecionado === true) {
                     cont++;
                 }
             };
@@ -48,7 +49,7 @@ app.controller('gerenciarInsetos',
             config.title = "Redirecionamento!"
             config.message = "Deseja ir para a tela de edição?"
             config.callback = function() {
-                window.location.href = "index.html#!/cadastroInsetos/" + $scope.insetoSelecionado._id;
+                window.location.href = "index.html#!/cadastroCaracteristicas/" + $scope.caracteristicaSelecionado._id;
             };
 
             $scope.showConfirm(config);
@@ -57,15 +58,15 @@ app.controller('gerenciarInsetos',
         $scope.removerRegistro = function(isArray) {
             setTimeout(function() {
                 if (isArray) {
-                    deletarRegistro(rotaInseto, $scope.listInsetos);
+                    deletarRegistro(rotaCaracteristicas, $scope.listCaracteristicas);
                 } else {
-                    deletarRegistro(rotaInseto, $scope.insetoSelecionado);
+                    deletarRegistro(rotaCaracteristicas, $scope.caracteristicaSelecionado);
                 };
             }, 150);
             // if()
         };
 
-        crudService.listarRegistros(rotaInseto, callbackListar);
+        crudService.listarRegistros(rotaCaracteristicas, callbackListar);
 
         $scope.selecionado = false;
 
@@ -94,7 +95,7 @@ app.controller('gerenciarInsetos',
             config.title = "Redirecionamento!"
             config.message = "Deseja ir para a tela de cadastro?"
             config.callback = function() {
-                window.location.href = "index.html#!/cadastroInsetos";
+                window.location.href = "index.html#!/cadastroCaracteristicas";
             };
 
             $scope.showConfirm(config);
@@ -125,8 +126,8 @@ app.controller('gerenciarInsetos',
             var configData = {};
 
             configData.entity = registro;
-            configData.title = "Insetos";
-            configData.route = "api/insetos"
+            configData.title = "Caracteristicas";
+            configData.route = "api/caracteristicas"
 
             var testaArray = false,
                 x, cont = 0;
@@ -143,7 +144,7 @@ app.controller('gerenciarInsetos',
                     crudService.deletarRegistro(configData);
 
                     setTimeout(function() {
-                        crudService.listarRegistros(rotaInseto, callbackListar);
+                        crudService.listarRegistros(rotaCaracteristicas, callbackListar);
                     }, 500);
                 };
                 $scope.showConfirm(config)
@@ -160,7 +161,7 @@ app.controller('gerenciarInsetos',
                     crudService.deletarRegistro(configData);
 
                     setTimeout(function() {
-                        crudService.listarRegistros(rotaInseto, callbackListar);
+                        crudService.listarRegistros(rotaCaracteristicas, callbackListar);
                     }, 500);
                 };
                 // function() {
@@ -190,7 +191,7 @@ app.controller('gerenciarInsetos',
         };
 
         $scope.setSelected = function(x) {
-            $scope.insetoSelecionado = x;
+            $scope.caracteristicaSelecionado = x;
         };
 
         //  --------------------- Funções padrões ----------------------------
@@ -214,7 +215,7 @@ app.controller('gerenciarInsetos',
         $scope.imagemModal = function() {
             var x = 0;
             setTimeout(function() {
-                $scope.showModal($scope.insetoSelecionado);
+                $scope.showModal($scope.caracteristicaSelecionado);
             }, 100);
         };
 
@@ -233,7 +234,7 @@ app.controller('gerenciarInsetos',
             // Caso desejar passar algum dado para a modal
             $scope.opts.resolve.item = function() {
                 return angular.copy({
-                    name: $scope.insetoSelecionado.imagem
+                    name: $scope.caracteristicaSelecionado.imagem
                 }); // pass name to Dialog
             };
 

@@ -5,7 +5,7 @@
 
     <div class="col-sm-12" style="background-color:white; padding-bottom:10px">
         <div class="col-sm-7" style="padding-left:0px; margin-top: -6px;">
-            <p>Info: Insira uma imagem correspondente a ordem de insetos</p>
+            <p>Info: Insira uma imagem correspondente ao insetos</p>
             <form id="fileupload">
                 <div class="row fileupload-buttonbar">
                     <div class="col-lg-12">
@@ -35,7 +35,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" ng-maxlength="11" ng-model="insetos.ordem.nome" ng-disabled="true" ng-required="required">
                             <span class="input-group-btn">
-                                <button class="glyphicon glyphicon-search btn btn-primary" type="button" data-toggle="modal" data-target="#modalAssociarOrdem" onclick="removerClasseInvalida()"></button>
+                                <button class="glyphicon glyphicon-search btn btn-primary" type="button" ng-click="showModalOrdem()"></button>
                             </span>
 
                         </div>
@@ -82,7 +82,6 @@
                     </div>
                 </div>
             </div>
-            <div ng-include="'view/modalOrdem.html'"></div>
         </div>
     </div>
 </form>
