@@ -16,6 +16,8 @@ app.get('/listar' , controleOrdem.listar);
 app.get('/listar/:id' , controleOrdem.findById);
 
 app.get('/delete/:id', controleOrdem.deletarRegistro);
+
+app.put('/update/:id', controleOrdem.atualizarRegistro);
 // ----------------------------------------------- Rotas de Ordem ----------------------------------------------
 
 module.exports = app;

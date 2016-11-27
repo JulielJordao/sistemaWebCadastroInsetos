@@ -1,13 +1,17 @@
 var app = angular.module('myApp');
 
-app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosService, Notification, crudService) {
+app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParams, usuariosService, Notification, crudService) {
 
     $scope.insetos = {};
     $scope.insetos.ordem = {};
+    $scope.url = {};
     $scope.insetos.caracteristicas = [];
     $scope.ordemCadastroVisivel = false;
     $scope.selecionado = false;
     $scope.view = "cadastro";
+    $scope.editMode = false;
+
+    $scope.imagemAlterada = false;
 
     var rotaInseto = "api/insetos";
     var rotaCaracteristicas = "api/caracteristicas";
@@ -17,66 +21,105 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
 
     usuariosService.testarPermissao();
 
+    if ($routeParams.id !== undefined) {
+        $scope.editMode = true;
+        importarRegistroEdicao();
+    } else {
+        $scope.editMode = false;
+    }
 
-    $scope.logout = function() {
-        console.log("aqui")
-        usuariosService.logout();
+    var dataRequest = {};
+    dataRequest.route = rotaInseto;
+    dataRequest.title = "Insetos";
+
+    function importarRegistroEdicao() {
+        crudService.obterRegistro(rotaInseto, $routeParams.id, result)
+
+        function result(res) {
+            $scope.insetos = res.data;
+            console.log(res.data);
+
+            console.log($scope.insetos.imagem);
+        }
+    };
+
+    $scope.salvarHabilitado = function() {
+        if ($scope.editMode === true) {
+          if($scope.imagemAlterada === true){
+            return $scope.cadastroInsetosForm.$invalid || $scope.insetos.caracteristicas.length === 0 ? true : false
+          } else {
+            return $scope.cadastroInsetosForm.$pristine  || $scope.cadastroInsetosForm.$invalid || $scope.insetos.caracteristicas.length === 0 ? true : false
+          }
+        } else {
+            return $scope.cadastroInsetosForm.$invalid === true || $scope.url.image === undefined || $scope.insetos.caracteristicas.length === 0 ? true : false
+        }
+    };
+
+
+    $scope.alterarImagem = function() {
+        if ($scope.url.image !== undefined && $scope.url.image !== null && $scope.url.image !== "") {
+            $scope.imagemAlterada = true;
+        }
     };
 
     //  --------------------------------  Função de Salvar Imagem -----------------------------
     $scope.submeterCadastro = function(file) {
         // $scope.url.image.fshowModalilename = $scope.url.image.name;
-        var file = $scope.url.image;
+        setTimeout(function() {
+            if ($scope.imagemAlterada === true || $scope.editMode === false) {
+                var file = $scope.url.image;
 
-        var fd = new FormData();
+                var fd = new FormData();
 
-        fd.append('image', file);
+                fd.append('image', file);
 
 
-        $http.post('api/uploads', fd, {
-            transformRequest: angular.identity,
-            headers: {
-                'Content-Type': undefined
+                $http.post('api/uploads', fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                }).then(result, errorImagem);
+            } else {
+              var config = {};
+              config.data = {};
+              config.data.code = $scope.insetos.imagem;
+              result(config)
             }
-        }).then(result, errorImagem);
 
-        function result(res) {
-            console.log(res.data);
-            $scope.insetos.imagem = res.data.code;
-            console.log($scope.insetos)
-            $http.post('api/insetos/cadastro', $scope.insetos).then(sucesso, error);
+            function result(res) {
+                if ($scope.editMode === false) {
+                    dataRequest.entity = $scope.insetos
+                    $scope.insetos.imagem = res.data.code;
+                    crudService.cadastrarRegistro(dataRequest);
 
-            function sucesso(resultado) {
-                console.log(resultado);
-                Notification.success({
-                    message: "Cadastrado com sucesso!",
-                    title: "Insetos"
-                })
+                    $scope.cadastroInsetosForm.$pristine = true;
+                } else {
+                    $scope.insetos.imagem = res.data.code;
+                    dataRequest.entity = $scope.insetos;
+                    crudService.atualizarRegistro(dataRequest);
+                }
             };
 
-            function error(err) {
-                console.log(err)
+            function errorImagem(err) {
+                console.log(err);
             }
-        };
-
-        function errorImagem(err) {
-            console.log(err)
-        };
+        }, 100);
     }
+
 
     $scope.removerLinhaCaracteristica = function(x) {
         var x = 0,
             entity = $scope.insetos.caracteristicas;
         for (x in entity) {
-            if ($scope.insetos.caracteristicas._id === x._id) {
-                console.log(x);
-            }
+            if ($scope.insetos.caracteristicas._id === x._id) {}
         }
     };
 
     // Remove todos os item inseridos na tabela da tela principal
     $scope.removerTudo = function() {
         $scope.insetos.caracteristicas = [];
+        $scope.cadastroInsetosForm.$pristine = true;
     };
 
     $scope.removerArquivo = function() {
@@ -114,7 +157,6 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
             // $scope.showModal();
 
             //on cancel button press
-            console.log("Modal Closed");
         });
     };
 
@@ -148,7 +190,6 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, usuariosSer
             // $scope.showModal();
 
             //on cancel button press
-            console.log("Modal Closed");
         });
     };
 
@@ -216,12 +257,10 @@ var modalOrdemCtrl = function($scope, $uibModalInstance, $http, $uibModal, $time
     // Insere no modelo da tela principal
     $scope.associarOrdem = function() {
         var x = 0;
-        console.log($scope);
         for (x in $scope.listOrdem) {
             if ($scope.listOrdem[x].selecionado === true) {
                 scope.insetos.ordem = $scope.listOrdem[x];
                 // close();
-                console.log(scope.insetos)
             };
         };
         $scope.close();
@@ -263,12 +302,9 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
 
     $scope.idSelectedCaracteristicas = false;
 
-    console.log(scope)
-
     $scope.idSelectedCaracteristicas = null;
     $scope.setSelected = function(idSelected) {
         $scope.idSelectedCaracteristicas = idSelected;
-        console.log($scope.idSelectedCaracteristicas)
     };
 
     // $scope.$parent = item;
@@ -277,7 +313,6 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
         $uibModalInstance.close();
     };
 
-    console.log($scope);
 
     // --------------------- Função que carrega a lista de caracteristicas -----------------------
 
@@ -286,7 +321,6 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
 
         function sucesso(res) {
             $scope.caracteristicas = res.data;
-            console.log(res.data);
         };
 
         function error(err) {
@@ -363,6 +397,7 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
                     "nome": $scope.caracteristicas[x].nome,
                     "_id": $scope.caracteristicas[x]._id
                 })
+                scope.cadastroInsetosForm.$pristine = true;
             }
         };
 
@@ -400,7 +435,7 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
     };
 };
 
-var modalImagemCtrl = function ($scope, $uibModalInstance, $uibModal, item) {
+var modalImagemCtrl = function($scope, $uibModalInstance, $uibModal, item) {
     $scope.imagem = item.name;
 
     $scope.ok = function() {

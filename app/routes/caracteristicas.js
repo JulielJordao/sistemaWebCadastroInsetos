@@ -17,6 +17,8 @@ app.get('/listar/:id' , controleCaracteristicas.findById);
 
 app.get('/delete/:id', controleCaracteristicas.deletarRegistro);
 
+app.put('/update/:id', controleCaracteristicas.atualizarRegistro);
+
 // ----------------------------------------------- Rotas de Características ----------------------------------------------
 
 module.exports = app;

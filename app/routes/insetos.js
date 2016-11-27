@@ -19,6 +19,8 @@ app.get('/listar/:id' , controleInsetos.findById);
 
 app.get('/delete/:id', controleInsetos.deletarRegistro);
 
+app.put('/update/:id', controleInsetos.atualizarRegistro);
+
 // ----------------------------------------------- Rotas de Características ----------------------------------------------
 
 module.exports = app;

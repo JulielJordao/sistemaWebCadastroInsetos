@@ -127,13 +127,9 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
             quantError = 0,
             quantSuccess = 0;
 
-        console.log(config)
-
         if (config.entity.length !== undefined) {
             testaArray = true;
         }
-
-        console.log(config)
 
         if (testaArray === false) {
             $http.get(config.route + "/delete/" + config.entity._id).then(result, error);
@@ -191,6 +187,22 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
           }
     };
 
+    /*
+    * id para executar o findById, route para a rota e callback para função a ser executa ao sucesso
+    */
+    this.obterRegistro = function(route, id, callback) {
+
+        $http.get(route + "/listar/"+ id).then(sucesso, error);
+
+          function sucesso(res) {
+              callback(res);
+          }
+
+          function error(err) {
+              callback(err)
+          }
+    };
+
 
     /*
     * Title - titulo das mensagens, entity - entidade a ser cadastrado, route - rota de cadastro
@@ -220,6 +232,33 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
               title: cadastro.title
           });
           console.log(err);
+        };
+    };
+
+
+    this.atualizarRegistro = function(atualizar) {
+
+        $http.put(atualizar.route + "/update/"+ atualizar.entity._id, atualizar.entity).then(result, error)
+
+        function result(res) {
+          Notification.success({
+              message: "Registro atualizado com Sucesso!",
+              title: atualizar.title
+          });
+
+          atualizar.entity = {};
+
+          setTimeout(function() {
+              window.location.href = "/";
+          }, 2000);
+
+        };
+
+        function error(err) {
+          Notification.error({
+              message: "Ocorreu um erro inesperado!",
+              title: atualizar.title
+          });
         };
     };
 

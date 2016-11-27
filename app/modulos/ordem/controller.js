@@ -85,3 +85,24 @@ var deletarRegistro = function(req, res) {
 };
 
 exports.deletarRegistro = deletarRegistro;
+
+var atualizarRegistro = function(req, res) {
+    var entity = req.body;
+    if (req.session.user !== undefined) {
+        Ordem.atualizarRegistro(req.params.id, entity, sucesso, error);
+    } else {
+        res.json({
+            error: 'Usuário não logado'
+        })
+    }
+
+    function sucesso(resposta) {
+        res.status(200).json(resposta);
+    };
+
+    function error(err) {
+        res.status(400).json(err);
+    };
+};
+
+exports.atualizarRegistro = atualizarRegistro;

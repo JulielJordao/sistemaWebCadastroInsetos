@@ -1,6 +1,6 @@
 var app = angular.module('myApp');
 
-app.controller('cadastroOrdem', function($scope, $http, $uibModal, usuariosService, Notification) {
+app.controller('cadastroOrdem', function($scope, $http, $uibModal, $routeParams, usuariosService, crudService, Notification) {
 
     $scope.ordem = {};
     $scope.ordem.caracteristicas = [];
@@ -10,47 +10,103 @@ app.controller('cadastroOrdem', function($scope, $http, $uibModal, usuariosServi
     usuariosService.init("cadastro")
     $scope.listCaracteristicas = [];
 
+    $scope.editMode = false;
+
+    $scope.imagemAlterada = false;
+
     usuariosService.testarPermissao();
 
-    $scope.logout = function() {
-      usuariosService.logout();
+    var rotaOrdem = "api/ordem";
+
+    var dataRequest = {};
+    dataRequest.route = "api/ordem";
+    dataRequest.title = "Ordem"
+
+
+    // -------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------- Funções referentes a edição ---------------------------------------
+
+    if ($routeParams.id !== undefined) {
+        $scope.editMode = true;
+        importarRegistroEdicao();
+    }else {
+        $scope.editMode = false;
+    }
+
+    function importarRegistroEdicao() {
+        crudService.obterRegistro(rotaOrdem, $routeParams.id, result)
+
+        function result(res) {
+          $scope.ordem = res.data;
+        }
     };
+
+    $scope.salvarHabilitado = function() {
+        if ($scope.editMode === true) {
+          if($scope.imagemAlterada === true){
+            return $scope.cadastroOrdemForm.$invalid || $scope.ordem.caracteristicas.length === 0 ? true : false
+          } else {
+            return $scope.cadastroOrdemForm.$pristine  || $scope.cadastroOrdemForm.$invalid || $scope.ordem.caracteristicas.length === 0 ? true : false
+          }
+        } else {
+            return $scope.cadastroOrdemForm.$invalid === true || $scope.url.image === undefined || $scope.ordem.caracteristicas.length === 0 ? true : false
+        }
+    };
+
+    $scope.alterarImagem = function() {
+        if ($scope.url.image !== undefined && $scope.url.image !== null && $scope.url.image !== "") {
+            $scope.imagemAlterada = true;
+        }
+    };
+
+
+    // ----------------------------------------- Funções referentes a edição ---------------------------------------
+    // -------------------------------------------------------------------------------------------------------------
 
     //  --------------------------------  Função de Salvar Imagem -----------------------------
     $scope.submeterCadastro = function(file) {
         // $scope.url.image.fshowModalilename = $scope.url.image.name;
-        var file = $scope.url.image;
+        setTimeout(function() {
+            if ($scope.imagemAlterada === true || $scope.editMode === false) {
+                var file = $scope.url.image;
 
-        var fd = new FormData();
+                var fd = new FormData();
 
-        fd.append('image', file);
+                fd.append('image', file);
 
 
-        $http.post('api/uploads', fd, {
-            transformRequest: angular.identity,
-            headers: {
-                'Content-Type': undefined
+                $http.post('api/uploads', fd, {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+                }).then(result, errorImagem);
+            } else {
+              var config = {};
+              config.data = {};
+              config.data.code = $scope.ordem.imagem;
+              result(config)
             }
-        }).then(result, errorImagem);
 
-        function result(res) {
-            $scope.ordem.imagem = res.data.code;
-            console.log($scope.ordem)
-            $http.post('api/ordem/cadastro', $scope.ordem).then(sucesso, error);
+            function result(res) {
+                if ($scope.editMode === false) {
+                    $scope.ordem.imagem = res.data.code;
+                    dataRequest.entity = $scope.ordem
 
-            function sucesso(resultado) {
-                console.log(resultado);
-                Notification.success({message: "Cadastrado com sucesso", title : "Insetos"})
+                    crudService.cadastrarRegistro(dataRequest);
+
+                    $scope.cadastroOrdemForm.$pristine = true;
+                } else {
+                    $scope.ordem.imagem = res.data.code;
+                    dataRequest.entity = $scope.ordem;
+                    crudService.atualizarRegistro(dataRequest);
+                }
             };
 
-            function error(err) {
-              console.log(err)
+            function errorImagem(err) {
+                console.log(err);
             }
-        };
-
-        function errorImagem(err) {
-            console.log(err)
-        };
+        }, 100);
     }
 
     $scope.removerLinhaCaracteristica = function(x) {
@@ -66,6 +122,7 @@ app.controller('cadastroOrdem', function($scope, $http, $uibModal, usuariosServi
     // Remove todos os item inseridos na tabela da tela principal
     $scope.removerTudo = function() {
         $scope.ordem.caracteristicas = [];
+        $scope.cadastroOrdemForm.$pristine = true;
     };
 
     $scope.removerArquivo = function() {
@@ -232,6 +289,7 @@ var modalCaracteristicasOrdemCtrl = function($scope, $uibModalInstance, $http, $
                     "nome": $scope.caracteristicas[x].nome,
                     "_id": $scope.caracteristicas[x]._id
                 })
+                scope.cadastroOrdemForm.$pristine = true;
             }
         };
 

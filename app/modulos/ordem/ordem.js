@@ -65,3 +65,15 @@ var deletarRegistro = function(codigo, quandoEncontrar, quandoDerErro) {
 };
 
 exports.deletarRegistro = deletarRegistro;
+
+var atualizarRegistro = function(codigo, entity, quandoEncontrar, quandoDerErro){
+    Ordem.findByIdAndUpdate(codigo, entity).exec(function(err, ordem){
+    if(err){
+      quandoDerErro(err)
+    } else {
+      quandoEncontrar(ordem)
+    }
+  });
+};
+
+exports.atualizarRegistro = atualizarRegistro;

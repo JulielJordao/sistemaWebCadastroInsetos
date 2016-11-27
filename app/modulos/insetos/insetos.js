@@ -65,3 +65,15 @@ var deletarRegistro = function(codigo, quandoEncontrar, quandoDerErro) {
 };
 
 exports.deletarRegistro = deletarRegistro;
+
+var atualizarRegistro = function(codigo, entity, quandoEncontrar, quandoDerErro){
+    Insetos.findByIdAndUpdate(codigo, entity).exec(function(err, insetos){
+    if(err){
+      quandoDerErro(err)
+    } else {
+      quandoEncontrar(insetos)
+    }
+  });
+};
+
+exports.atualizarRegistro = atualizarRegistro;

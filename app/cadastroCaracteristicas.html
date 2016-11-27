@@ -13,11 +13,12 @@
                     <div class="col-lg-12">
                         <!-- O fileinput-botton span é usado para estilizar o campo de arquivo no botão -->
                         <span class="btn btn-success input-group btn-block">
-                            <input type="file" class="form-control-file" accept="image/*" file-model="url.image" onchange="readURL(this);" ng-required="true"/>
+                            <input type="file" class="form-control-file" accept="image/*" file-model="url.image" onchange="readURL(this);" ng-required="true" ng-blur="alterarImagem()"/>
                         </span>
                         <div class="imagemCadatro" style="margin-top:10px">
-                            <img id="blah" src="#" alt="Nenhuma Imagem" ng-show="url.image !== undefined" style="max-height:100%; max-width:100%;"/>
-                            <img id="temp" src="img/sem-imagem.png" alt="sem-imagem" style="margin-top: 10px" ng-show="url.image === undefined" ng-required="true">
+                          <img id="blah" src="#" alt="imagem" ng-show="url.image !== undefined" style="max-height:100%; max-width:100%;">
+                          <img id="imagemEdicao" src="uploads/{{caracteristica.imagem}}" alt="Imagem Inseto" ng-show="url.image === undefined && editMode === true && imagemAlterada === false" style="max-height:100%; max-width:100%;">
+                          <img id="temp" src="img/sem-imagem.png" alt="sem-imagem" style="margin-top: 10px" ng-show="url.image === undefined && editMode === false" ng-required="true" >
                         </div>
                     </div>
                 </div>
@@ -25,16 +26,19 @@
         </div>
         <div class="col-sm-5">
             <div class="row">
-                <fieldset >
+                <fieldset>
                     <div class="form-group">
                         <label for="infoCadastro">Nome da Característica</label>
-                        <input type="text" class="form-control" name="name" value="" ng-model="caracteristica.nomCaracteristica">
+                        <input type="text" class="form-control" name="name" value="" ng-model="caracteristica.nome" ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn-info btn">Gerenciar Posição</button>
                     </div>
                 </fieldset>
             </div>
             <div class="row">
                 <div class="pull-right">
-                    <button type="button" class="btn-primary btn" ng-click="submeterCadastro()" ng-disabled="cadastroCaracteristicaForm.$invalid || cadastroCaracteristicaForm.$pristine">Confimar Cadastro</button>
+                    <button type="button" class="btn-primary btn" ng-click="submeterCadastro()" ng-disabled="salvarHabilitado()">Confimar Cadastro</button>
                 </div>
             </div>
         </div>
