@@ -70,7 +70,7 @@ var upload = multer({
 });
 
 mongoose.connect('mongodb://teste:teste@ds017165.mlab.com:17165/sistema_faculdade');
-// mongoose.connect('mongodb://localhost:27017');
+// mongoose.connect('mongodb://localhost:27017/');
 
 app.set('port', process.env.PORT || 3000);
 
@@ -93,6 +93,18 @@ app.get('/', function(req, res) {
     // res.send('Hello World!');
     res.redirect('login.html');
 });
+
+app.get('/api/deleteImagem/:imagem', function(req, res){
+  if(req.session.user !== undefined){
+    fs.unlink("uploads/" + req.params.imagem, sucesso);
+  } else {
+    res.json({error : 'Usuário não logado'})
+  }
+
+  function sucesso(){
+    res.json({succes : "Registro deletado com suceso!"})
+  };
+}).
 
 // function(req, res) {
 //     if (req.session.user !== undefined) {

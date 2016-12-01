@@ -35,7 +35,7 @@
             <tr ng-repeat="x in listCaracteristicas | filter:criterioDeBusca " ng-click="setSelected(x)">
                 <td class="txt-center" ><input type="checkbox" ng-model="x.selecionado"></td>
                 <td class="">
-                    <a href="" title="">{{x.nome}}</a>
+                  {{x.nome}}
                 </td>
                 <td class="hidden-xs">{{x.dataCadastro}}</td>
                 <td class="">

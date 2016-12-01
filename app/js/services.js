@@ -221,7 +221,7 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
           cadastro.entity = {};
 
           setTimeout(function() {
-              window.location.href = "/";
+              window.location.href = "/index.html#!/gerenciar"+atualizar.title;
           }, 2000);
 
         };
@@ -231,7 +231,6 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
               message: "Ocorreu um erro inesperado!",
               title: cadastro.title
           });
-          console.log(err);
         };
     };
 
@@ -249,7 +248,7 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
           atualizar.entity = {};
 
           setTimeout(function() {
-              window.location.href = "/";
+              window.location.href = "/index.html#!/gerenciar"+atualizar.title;
           }, 2000);
 
         };
