@@ -120,6 +120,8 @@ app.controller('gerenciarCaracteristicas',
         function deletarRegistro(route, registro) {
 
             var config = {};
+            var imagem = {};
+
 
             config.title = "Inseto";
 
@@ -228,6 +230,7 @@ app.controller('gerenciarCaracteristicas',
                 keyboard: true,
                 templateUrl: 'view/modalImagem.html',
                 controller: modalImagemCtrl,
+                windowClass : 'modal-imagem',
                 resolve: {} // empty storage
             };
 
@@ -252,6 +255,7 @@ app.controller('gerenciarCaracteristicas',
     })
 
 var modalImagemCtrl = function($scope, $uibModalInstance, $uibModal, item) {
+  
     $scope.imagem = item.name;
 
     $scope.ok = function() {

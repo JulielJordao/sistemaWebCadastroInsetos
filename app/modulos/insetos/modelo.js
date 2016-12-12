@@ -41,9 +41,6 @@ var insetoSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    posicao: {
-      type: Number
-    },
     caracteristicas: [caracteristicaSchema],
     ordem: {
       type : ordem,

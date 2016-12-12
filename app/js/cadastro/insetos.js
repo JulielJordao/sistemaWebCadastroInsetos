@@ -10,6 +10,7 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParam
     $scope.selecionado = false;
     $scope.view = "cadastro";
     $scope.editMode = false;
+    $scope.entidadeSelecionada = {};
 
     $scope.imagemAlterada = false;
 
@@ -21,6 +22,7 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParam
 
     usuariosService.testarPermissao();
 
+    // Verifica se está em modo de edição
     if ($routeParams.id !== undefined) {
         $scope.editMode = true;
         importarRegistroEdicao();
@@ -37,19 +39,16 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParam
 
         function result(res) {
             $scope.insetos = res.data;
-            console.log(res.data);
-
-            console.log($scope.insetos.imagem);
         }
     };
 
     $scope.salvarHabilitado = function() {
         if ($scope.editMode === true) {
-          if($scope.imagemAlterada === true){
-            return $scope.cadastroInsetosForm.$invalid || $scope.insetos.caracteristicas.length === 0 ? true : false
-          } else {
-            return $scope.cadastroInsetosForm.$pristine  || $scope.cadastroInsetosForm.$invalid || $scope.insetos.caracteristicas.length === 0 ? true : false
-          }
+            if ($scope.imagemAlterada === true) {
+                return $scope.cadastroInsetosForm.$invalid || $scope.insetos.caracteristicas.length === 0 ? true : false
+            } else {
+                return $scope.cadastroInsetosForm.$pristine || $scope.cadastroInsetosForm.$invalid || $scope.insetos.caracteristicas.length === 0 ? true : false
+            }
         } else {
             return $scope.cadastroInsetosForm.$invalid === true || $scope.url.image === undefined || $scope.insetos.caracteristicas.length === 0 ? true : false
         }
@@ -81,10 +80,10 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParam
                     }
                 }).then(result, errorImagem);
             } else {
-              var config = {};
-              config.data = {};
-              config.data.code = $scope.insetos.imagem;
-              result(config)
+                var config = {};
+                config.data = {};
+                config.data.code = $scope.insetos.imagem;
+                result(config)
             }
 
             function result(res) {
@@ -106,15 +105,6 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParam
             }
         }, 100);
     }
-
-
-    $scope.removerLinhaCaracteristica = function(x) {
-        var x = 0,
-            entity = $scope.insetos.caracteristicas;
-        for (x in entity) {
-            if ($scope.insetos.caracteristicas._id === x._id) {}
-        }
-    };
 
     // Remove todos os item inseridos na tabela da tela principal
     $scope.removerTudo = function() {
@@ -193,30 +183,37 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParam
         });
     };
 
-    // function retornarPosicao(entity, _id, selecao) {
-    //     if (selecao === false || selecao === undefined) {
-    //         for (x in entity) {
-    //             if (entity._id === _id) {
-    //                 return x;
-    //             }
-    //         };
-    //     } else {
-    //         for (x in entity) {
-    //             var array = [];
-    //             if (entity.selecionado === true) {
-    //                 // retornarPosicao($scope.caracteristicas, entity._id, false);
-    //                 array[x]
-    //             }
-    //         };
-    //         return array;
-    //     }
-    // };
+    $scope.removerLinhaCaracteristica = function(linha) {
+        removeByAttr($scope.insetos.caracteristicas, '_id', linha._id)
+    };
+
+    // Função que remove um elemento de um array pelo atributo
+    var removeByAttr = function(arr, attr, value) {
+        var i = arr.length;
+        while (i--) {
+            if (arr[i] &&
+                arr[i].hasOwnProperty(attr) &&
+                (arguments.length > 2 && arr[i][attr] === value)) {
+
+                arr.splice(i, 1);
+
+            }
+        }
+        return arr;
+    }
+
 
 });
 
 var modalOrdemCtrl = function($scope, $uibModalInstance, $http, $uibModal, $timeout, scope) {
 
     carregarOrdem();
+
+    var ordemAnterior = null;
+
+    if (scope.insetos.ordem.nome !== undefined) {
+        ordemAnterior = scope.insetos.ordem.nome;
+    };
 
     function carregarOrdem() {
         $http.get('/api/ordem/listar').then(result, error);
@@ -260,9 +257,16 @@ var modalOrdemCtrl = function($scope, $uibModalInstance, $http, $uibModal, $time
         for (x in $scope.listOrdem) {
             if ($scope.listOrdem[x].selecionado === true) {
                 scope.insetos.ordem = $scope.listOrdem[x];
+
+                if (scope.insetos.ordem.nome === ordemAnterior) {
+
+                } else {
+                    scope.insetos.caracteristicas = $scope.listOrdem[x].caracteristicas;
+                }
                 // close();
             };
         };
+
         $scope.close();
     };
 
@@ -356,6 +360,7 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
             keyboard: true,
             templateUrl: 'view/modalImagem.html',
             controller: modalImagemCtrl,
+            windowClass: 'modal-imagem',
             resolve: {} // empty storage
         };
 
@@ -433,6 +438,8 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
             return false;
         }
     };
+
+
 };
 
 var modalImagemCtrl = function($scope, $uibModalInstance, $uibModal, item) {

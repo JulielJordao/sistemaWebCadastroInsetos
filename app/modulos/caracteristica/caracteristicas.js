@@ -13,7 +13,7 @@ var cadastrar = function(caracteristicas, salvo, error){
 exports.cadastrar = cadastrar;
 
 var listar = function(quandoEncontrar, quandoDerErro){
-    Caracteristicas.find().select({_id : true, nome : true, imagem: true}).exec(function(err, caracteristica){
+    Caracteristicas.find().select().exec(function(err, caracteristica){
     if(err){
       quandoDerErro(err)
     } else {
@@ -25,7 +25,7 @@ var listar = function(quandoEncontrar, quandoDerErro){
 exports.listar = listar;
 
 var findByNome = function(nome, quandoEncontrar, quandoDerErro){
-  Caracteristicas.findOne({nome : nome}).exec(function(err, valor){
+  Caracteristicas.find({nome : nome}).exec(function(err, valor){
     if(err){
       quandoDerErro(err);
     } else if(valor){
@@ -35,6 +35,18 @@ var findByNome = function(nome, quandoEncontrar, quandoDerErro){
 };
 
 exports.findByNome = findByNome;
+
+var findByPosicao = function(posicao, quandoEncontrar, quandoDerErro){
+  Caracteristicas.find({posicao : posicao}).exec(function(err, valor){
+    if(err){
+      quandoDerErro(err);
+    } else if(valor){
+      quandoEncontrar(valor);
+    }
+  });
+};
+
+exports.findByPosicao = findByPosicao;
 
 var findById = function(id, quandoEncontrar, quandoDerErro){
   Caracteristicas.findOne({_id : id}).exec(function(err, valor){

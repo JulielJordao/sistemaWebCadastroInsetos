@@ -23,6 +23,8 @@ const path = require('path')
 // abertura de session
 const session = require('express-session');
 
+const fs = require('fs');
+
 //
 var parseurl = require('parseurl')
 
@@ -69,8 +71,8 @@ var upload = multer({
     storage: storage
 });
 
-mongoose.connect('mongodb://teste:teste@ds017165.mlab.com:17165/sistema_faculdade');
-// mongoose.connect('mongodb://localhost:27017/');
+// mongoose.connect('mongodb://teste:teste@ds017165.mlab.com:17165/sistema_faculdade');
+mongoose.connect('mongodb://localhost:27017/');
 
 app.set('port', process.env.PORT || 3000);
 
@@ -94,17 +96,7 @@ app.get('/', function(req, res) {
     res.redirect('login.html');
 });
 
-app.get('/api/deleteImagem/:imagem', function(req, res){
-  if(req.session.user !== undefined){
-    fs.unlink("uploads/" + req.params.imagem, sucesso);
-  } else {
-    res.json({error : 'Usuário não logado'})
-  }
 
-  function sucesso(){
-    res.json({succes : "Registro deletado com suceso!"})
-  };
-}).
 
 // function(req, res) {
 //     if (req.session.user !== undefined) {
@@ -121,11 +113,26 @@ app.get('/api/deleteImagem/:imagem', function(req, res){
 //             error: 'Usuário não logado'
 //         })
 //     }
+
+app.get('/api/deleteImage/:imagem', function(req, res) {
+  if(req.session.user !== undefined){
+    fs.unlink("uploads/" + req.params.imagem, sucesso);
+  } else {
+    res.json({error : 'Usuário não logado'})
+  }
+
+  function sucesso(){
+    res.json({success : "Registro deletado com suceso!"});
+  };
+});
+
 app.post('/api/uploads', upload.single('image'), function(req, res) {
     res.json({
         code: req.file.filename
     })
 });
+
+
 
 app.listen(app.get('port'), function() {
     console.log("Express iniciou em localhost:3000");

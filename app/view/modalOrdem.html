@@ -9,7 +9,7 @@
                 <div class="col-sm-12">
                     <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Qual ordem?"/>
                 </div>
-                <div class="col-sm-12" style="margin-top: 10px;">
+                <div class="col-sm-12 mTop">
                     <table ng-show="listOrdem.length > 0" class="table table-striped">
                         <tr>
                             <th></th>
@@ -64,12 +64,12 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="pull-right">
-                    <a href="index.html#!/cadastroOrdem">
+                    <!-- <a href="index.html#!/cadastroOrdem">
                         <button type="button" class="btn btn-primary">
                             <span>
                                 <i class="novoCadastro"></i>Cadastrar Ordem</span>
                         </button>
-                    </a>
+                    </a> -->
                     <button type="button" class="btn btn-primary" ng-disabled="!isSelecionado()" ng-click="associarOrdem()">
                         <span>
                             <i class="salvar"></i>Confirmar</span>

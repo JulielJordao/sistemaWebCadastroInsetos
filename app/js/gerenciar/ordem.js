@@ -227,6 +227,7 @@ app.controller('gerenciarOrdem',
                 keyboard: true,
                 templateUrl: 'view/modalImagem.html',
                 controller: modalImagemCtrl,
+                windowClass : 'modal-imagem',
                 resolve: {} // empty storage
             };
 

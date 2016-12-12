@@ -37,13 +37,17 @@ var listar = function(req, res) {
 exports.listar = listar;
 
 var findByNome = function(req, res) {
-    Ordem.findByNome(req.body.nome, sucesso, error);
+    // console.log(req.params.nome);
+    Ordem.findByNome(req.params.nome, sucesso, error);
 
     function sucesso(resposta) {
+        console.log(resposta);
         res.status(200).json(resposta);
+        // res.status(200).json({nome : resposta.nome, imagem : resposta.imagem});
     };
 
     function error(err) {
+        console.log(err);
         res.status(400).json(err);
     };
 };

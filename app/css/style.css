@@ -1,11 +1,35 @@
-
 footer {
     min-height: 100px;
     background-color: #b4bfb5 !important;
-};
+}
 
+.imagemCadatro img {
+    max-height: 100%;
+    max-width: 100%;
+}
 
-.imagemCadatro img{
-  height : 100%;
-  width : 100%;
-};
+.app-modal-window .modal-body {
+    height: 90%;
+}
+
+.app-modal-window .modal-header {
+  background-color: #3636ff66;
+}
+
+.modal-imagem .modal-body {
+    height: 300px;
+}
+
+.modal-imagem .modal-header {
+    background-color: green;
+}
+
+.mTop {
+    margin-top: 10px;
+}
+
+.iconeFooter {
+    margin: 10px;
+    max-heigth: 300px;
+    max-width: 300px;
+}

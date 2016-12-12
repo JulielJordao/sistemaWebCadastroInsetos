@@ -20,19 +20,15 @@ app.service('usuariosService', function($rootScope, $location, $timeout, Notific
                 message: "Login ou senha incorretos",
                 title: 'Acesso'
             });
-            // ("Login ou senha incorreto");
         };
 
         function sucesso(res) {
 
             if (res.data.nome === undefined) {
-                // growl.error("Login ou senha incorretos");debugger
                 Notification.error({
-                        message: "Login ou senha incorretos",
-                        title: 'Acesso'
-                    })
-                    // growl.error("Não possui permissão de acesso, favor logar!", {title: "ERRO PERMISSÂO!" , positionY: 'center', positionX: 'center'});
-                    // window.alert("Login ou senha incorreto");
+                    message: "Login ou senha incorretos",
+                    title: 'Acesso'
+                })
             } else {
                 Notification.success({
                     message: "Logado com sucesso. Redirecionando ...",
@@ -78,18 +74,17 @@ app.service('usuariosService', function($rootScope, $location, $timeout, Notific
     };
 
     this.testarPermissao = function() {
-        setTimeout(function () {
-          if ($rootScope.logado === undefined) {
-              Notification.error({
-                  message: "Não possui permissão de acesso, favor logar! Redirecionado login ... ",
-                  title: "Controle de Acesso"
-              });
-              // window.location.href = "/login.html"
-              $timeout(function() {
-                  window.location.href = "/login.html"
-              }, 2000);
+        setTimeout(function() {
+            if ($rootScope.logado === undefined) {
+                Notification.error({
+                    message: "Não possui permissão de acesso, favor logar! Redirecionado login ... ",
+                    title: "Controle de Acesso"
+                });
+                $timeout(function() {
+                    window.location.href = "/login.html"
+                }, 2000);
 
-          }
+            }
         }, 150);
     };
 
@@ -125,52 +120,86 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
         var testaArray = false,
             x,
             quantError = 0,
-            quantSuccess = 0;
+            quantSuccess = 0
+        imagem = null;
+
 
         if (config.entity.length !== undefined) {
             testaArray = true;
         }
 
         if (testaArray === false) {
+            if (config.entity.imagem !== undefined && config.entity.imagem !== null && config.entity.imagem !== "") {
+                imagem = config.entity.imagem;
+            };
             $http.get(config.route + "/delete/" + config.entity._id).then(result, error);
         } else {
             for (x in config.entity) {
-              if(config.entity[x].selecionado === true){
-                $http.get(config.route + "/delete/" + config.entity[x]._id).then(result, error);
-              }
+                if (config.entity[x].selecionado === true) {
+                    if (config.entity.imagem !== undefined && config.entity.imagem !== null && config.entity.imagem !== "") {
+                        imagem = config.entity[x].imagem;
+                    };
+                    $http.get(config.route + "/delete/" + config.entity[x]._id).then(result, error);
+                }
             }
         }
 
         function result(res) {
+            deletarImagem(imagem);
             quantSuccess++;
         };
 
         function error(err) {
             quantError++;
-            console.log(err);
         };
 
-        setTimeout(function () {
-          if (quantError !== 0) {
-              Notification.error({
-                  title: config.title,
-                  message: "Ocorreu um erro ao Deletar Registro!"
-              })
-          } else {
-              if (quantSuccess === 1) {
-                  Notification.success({
-                      title: config.title,
-                      message: "Registros deletado com sucesso!"
-                  })
-              } else {
-                  var mensagem = "Registo deletados com sucesso : " + quantSuccess + "!";
-                  Notification.success({
-                      title: config.title,
-                      message: mensagem
-                  })
-              }
-          }
+        setTimeout(function() {
+            if (quantError !== 0) {
+                Notification.error({
+                    title: config.title,
+                    message: "Ocorreu um erro ao Deletar Registro!"
+                })
+            } else {
+                if (quantSuccess === 1) {
+                    Notification.success({
+                        title: config.title,
+                        message: "Registros deletado com sucesso!"
+                    })
+                } else {
+                    var mensagem = "Registo deletados com sucesso : " + quantSuccess + "!";
+                    Notification.success({
+                        title: config.title,
+                        message: mensagem
+                    })
+                }
+            }
         }, 300);
+
+    };
+
+    function deletarImagem(imagem) {
+        $http.get("/api/deleteImage/" + imagem).then(sucesso, error)
+
+        function sucesso(res) {
+
+        };
+
+        function error(err) {
+
+        };
+    };
+
+    function obterCopia(config, callback) {
+
+        $http.get(config.route + "/listar/nome/" + config.entity.nome).then(result, err);
+
+        function result(res) {
+            callback(res.data);
+        };
+
+        function err(err) {
+            callback(err);
+        };
 
     };
 
@@ -178,86 +207,142 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
 
         $http.get(route + "/listar").then(sucesso, error);
 
-          function sucesso(res) {
-              callback(res);
-          }
-
-          function error(err) {
-              callback(err)
-          }
-    };
-
-    /*
-    * id para executar o findById, route para a rota e callback para função a ser executa ao sucesso
-    */
-    this.obterRegistro = function(route, id, callback) {
-
-        $http.get(route + "/listar/"+ id).then(sucesso, error);
-
-          function sucesso(res) {
-              callback(res);
-          }
-
-          function error(err) {
-              callback(err)
-          }
-    };
-
-
-    /*
-    * Title - titulo das mensagens, entity - entidade a ser cadastrado, route - rota de cadastro
-    */
-
-    this.cadastrarRegistro = function(cadastro) {
-
-        $http.post(cadastro.route + "/cadastro", cadastro.entity).then(result, error)
-
-        function result(res) {
-          Notification.success({
-              message: "Cadastro com Sucesso!",
-              title: cadastro.title
-          });
-
-          cadastro.entity = {};
-
-          setTimeout(function() {
-              window.location.href = "/index.html#!/gerenciar"+atualizar.title;
-          }, 2000);
-
-        };
+        function sucesso(res) {
+            callback(res);
+        }
 
         function error(err) {
-          Notification.error({
-              message: "Ocorreu um erro inesperado!",
-              title: cadastro.title
-          });
+            callback(err)
+        }
+    };
+
+    /*
+     * id para executar o findById, route para a rota e callback para função a ser executa ao sucesso
+     */
+    this.obterRegistro = function(route, id, callback) {
+
+        $http.get(route + "/listar/" + id).then(sucesso, error);
+
+        function sucesso(res) {
+            callback(res);
+        }
+
+        function error(err) {
+            callback(err)
+        }
+    };
+
+
+    /*
+     * Title - titulo das mensagens, entity - entidade a ser cadastrado, route - rota de cadastro
+     */
+
+    this.cadastrarRegistro = function(cadastro) {
+        var temp = [];
+
+        temp = obterCopia(cadastro, obter);
+
+        function obter(res) {
+            temp = res;
+
+            if (temp[0] !== undefined) {
+                Notification.error({
+                    message: "Já existe um registro cadastrado!",
+                    title: cadastro.title
+                });
+            } else {
+                executaRequisicao();
+            }
+        };
+
+        function executaRequisicao() {
+
+            $http.post(cadastro.route + "/cadastro", cadastro.entity).then(result, error)
+
+            function result(res) {
+                Notification.success({
+                    message: "Cadastro com Sucesso!",
+                    title: cadastro.title
+                });
+
+                cadastro.entity = {};
+
+                setTimeout(function() {
+                    window.location.href = "/index.html#!/gerenciar" + cadastro.title;
+                }, 2000);
+
+            };
+
+            function error(err) {
+                Notification.error({
+                    message: "Ocorreu um erro inesperado!",
+                    title: cadastro.title
+                });
+            };
         };
     };
 
+    this.obterElementoPosicao = function(posicao, callback) {
+        $http.get('api/caracteristicas/listar/posicao/' + posicao).then(result, error);
+
+        function result(res){
+          callback(res.data);
+        };
+
+        function error(err){
+          console.log("Erro ao recuperar posição para pesquisa")
+        };
+
+    };
 
     this.atualizarRegistro = function(atualizar) {
 
-        $http.put(atualizar.route + "/update/"+ atualizar.entity._id, atualizar.entity).then(result, error)
+        var temp = [];
 
-        function result(res) {
-          Notification.success({
-              message: "Registro atualizado com Sucesso!",
-              title: atualizar.title
-          });
+        obterCopia(atualizar, obter);
 
-          atualizar.entity = {};
+        function obter(res) {
+            temp = res;
+            if (temp[0] !== undefined) {
+                if (atualizar.entity._id === temp[0]._id) {
+                    executaRequisicao();
+                } else {
+                    Notification.error({
+                        message: "Já existe um registro cadastrado!",
+                        title: atualizar.title
+                    });
+                }
+            } else {
+                executaRequisicao();
+            }
+        }
 
-          setTimeout(function() {
-              window.location.href = "/index.html#!/gerenciar"+atualizar.title;
-          }, 2000);
 
-        };
+        function executaRequisicao() {
+            $http.put(atualizar.route + "/update/" + atualizar.entity._id, atualizar.entity).then(result, error)
 
-        function error(err) {
-          Notification.error({
-              message: "Ocorreu um erro inesperado!",
-              title: atualizar.title
-          });
+            function result(res) {
+
+                Notification.success({
+                    message: "Registro atualizado com Sucesso!",
+                    title: atualizar.title
+                });
+
+                atualizar.entity = {};
+
+                setTimeout(function() {
+                    window.location.href = "/index.html#!/gerenciar" + atualizar.title;
+                }, 2000);
+
+            };
+
+            function error(err) {
+                Notification.error({
+                    message: "Ocorreu um erro inesperado!",
+                    title: atualizar.title
+                });
+            };
+
         };
     };
 
@@ -275,15 +360,15 @@ app.service('arvoreService', function($timeout) {
      * Retorna um array de dois elementos com os sucessores da árvore
      */
     this.calcularSucessores = function(valor) {
-        var posicao = calcularPosicaoArvore(valor)
+        var posicao = this.calcularPosicaoArvore(valor)
         var posicaoGalho, galhoSuperior, temp = 0,
             y = 1,
             array = [];
 
-        galhoSuperior = calcularTotalElementos(posicao + 1, valor);
+        galhoSuperior = this.calcularTotalElementos(posicao + 1, valor);
 
         if (posicao > 1) {
-            posicaoGalho = calcularPosicaoFolha(posicao, valor);
+            posicaoGalho = this.calcularPosicaoFolha(posicao, valor);
         } else {
             posicaoGalho = valor;
         }
@@ -300,24 +385,56 @@ app.service('arvoreService', function($timeout) {
         return array;
     };
 
+    // Encontra o valor que antecede a aquela ramificaçaõ
+    this.calcularAntecessor = function(valor) {
+      if(valor > 6){
+        var posicao = this.calcularPosicaoArvore(valor);
+
+        var posicaoFimGalhoAnterior = this.calcularTotalElementos(posicao);
+
+        var qtdElementosAteValor = valor - posicaoFimGalhoAnterior;
+
+        var posicaoFimGalhoAntecessoAntecessor = this.calcularTotalElementos(posicao-1);
+
+        var valorSoma = parseInt(qtdElementosAteValor / 2);
+
+        if(qtdElementosAteValor % 2  !== 0){
+          valorSoma += 1;
+        }
+
+        var result = posicaoFimGalhoAntecessoAntecessor + valorSoma;
+
+      } else {
+        if(valor === 3 || valor === 4){
+          var result = 1;
+        } else if(valor === 5 || valor === 6){
+          var result = 2
+        } else if(valor < 3){
+          var result = null;
+        }
+      }
+
+      return result;
+    };
 
     this.calcularPosicaoFolha = function(valor) { // Define a posicao do elemento no galho
 
-        var posicao = calcularPosicaoArvore(valor);
+        var posicao = this.calcularPosicaoArvore(valor);
         var folhasTotaisAntecessor,
             resultado;
 
-        folhasTotaisAntecessor = calcularTotalElementos(posicao, valor);
+        folhasTotaisAntecessor = this.calcularTotalElementos(posicao, valor);
 
         resultado = valor - folhasTotaisAntecessor;
 
         return resultado;
     };
 
-    this.calcularTotalElementos = function(posicaoGalho, valor) { // Define quantidadoes de elementos anteriores aquele galha
+    this.calcularTotalElementos = function(posicaoGalho, valor) { // Define quantidadoes de elementos anteriores a aquele galha
         var x = 1,
             res = 0,
             fatoracao = 2;
+        // Caso a posicao no galho seja maior que 1 ele realiza o loop para encontrar a quantidade de elementos totais no galho
         if (posicaoGalho > 1) {
             while (true) {
                 if (x === posicaoGalho) {
@@ -329,6 +446,7 @@ app.service('arvoreService', function($timeout) {
             };
         }
 
+        // Se a posicao no falho for 1 ele retorna o valor 1
         if (posicaoGalho === 1) {
             res = valor;
             return valor;
@@ -342,7 +460,7 @@ app.service('arvoreService', function($timeout) {
     /*
      * Encontra a ramificação onde fica o valor
      */
-    this.calcularPosicaoArvore = function(valor) {
+    this.calcularPosicaoArvore = function(posicao) {
         var pos = 1,
             x = 2,
             arvoreAnterior = 2,
@@ -351,10 +469,13 @@ app.service('arvoreService', function($timeout) {
         if (posicao > 2) {
             while (true) {
                 pos++;
-                if (valor > arvoreAnterior && valor <= arvoreSucessor) {
+
+                // Compara a posicao do galho anterior, mais a posicao do galho superior se estiver entre eles a posicao foi encontrada
+                if (posicao > arvoreAnterior && posicao <= arvoreSucessor) {
                     break;
                 }
 
+                // Valor a acrescentar na soma da quantidade de elementos anteriores ao galho
                 x *= 2;
 
                 arvoreAnterior += x

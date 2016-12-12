@@ -25,7 +25,7 @@ var listar = function(quandoEncontrar, quandoDerErro) {
 exports.listar = listar;
 
 var findByNome = function(nome, quandoEncontrar, quandoDerErro) {
-    Insetos.findOne({
+    Insetos.find({
         nome: nome
     }).exec(function(err, valor) {
         if (err) {

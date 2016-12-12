@@ -8,22 +8,22 @@
         <div class="col-sm-5 col-xs-12" style="margin-bottom:20px; margin-top:10px">
             <div class="col-sm-12">
 
-                <div class="row" style="margin-top:10px; ">
+                <div class="row mTop">
                     <div class="col-xs-11 col-sm-9" style="padding-right:0px; ">
-                        <button class="btn btn-primary btn-block" type="button" name="button" style="min-width:50%">Opção 1</button>
+                        <button class="btn btn-primary btn-block" type="button" name="button" style="min-width:50%" ng-click="escolha(1)" ng-disabled="elementoPosicao1.nome === undefined">{{botao1}}</button>
                     </div>
                     <div class="col-xs-1 col-sm-3" style="padding-left:0px; padding-right:5px">
-                        <button class="btn" type="button" name="button">
+                        <button class="btn" type="button" name="button" ng-disabled="elementoPosicao1.imagem === undefined" ng-click="showModalImagem(elementoPosicao1.imagem)">
                             <i class="glyphicon glyphicon-new-window"></i>
                         </button>
                     </div>
                 </div>
-                <div class="row" style="margin-top:10px; margin-bottom:50px;">
+                <div class="row mTop" style="margin-bottom:50px;">
                     <div class="col-xs-11 col-sm-9" style="padding-right:0px;">
-                        <button class="btn btn-primary btn-block" type="button" name="button" style="min-width:50%">Opção 1</button>
+                        <button class="btn btn-primary btn-block" type="button" name="button" style="min-width:50%" ng-click="escolha(2)" ng-disabled="elementoPosicao1.nome === undefined">{{botao2}}</button>
                     </div>
                     <div class="col-xs-1 col-sm-3" style="padding-left:0px; padding-right:5px">
-                        <button class="btn" type="button" name="button">
+                        <button class="btn" type="button" name="button" ng-disabled="elementoPosicao1.imagem === undefined" ng-click="showModalImagem(elementoPosicao2.imagem)">
                             <i class="glyphicon glyphicon-new-window"></i>
                         </button>
                     </div>

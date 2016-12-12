@@ -50,6 +50,20 @@ var findByNome = function(req, res) {
 
 exports.findByNome = findByNome;
 
+var findByPosicao = function(req, res) {
+    caracteristicas.findByPosicao(req.params.posicao, sucesso, error);
+
+    function sucesso(resposta) {
+        res.status(200).json(resposta);
+    };
+
+    function error(err) {
+        res.status(400).json(err);
+    };
+};
+
+exports.findByPosicao = findByPosicao;
+
 var findById = function(req, res) {
     caracteristicas.findById(req.params.id, sucesso, error);
 

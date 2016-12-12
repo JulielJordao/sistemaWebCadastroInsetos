@@ -177,6 +177,25 @@ app.controller('cadastroOrdem', function($scope, $http, $uibModal, $routeParams,
         }
     }
 
+    $scope.removerLinhaCaracteristica = function(linha) {
+        removeByAttr($scope.ordem.caracteristicas, '_id', linha._id)
+    };
+
+    // Função que remove um elemento de um array pelo atributo
+    var removeByAttr = function(arr, attr, value) {
+        var i = arr.length;
+        while (i--) {
+            if (arr[i] &&
+                arr[i].hasOwnProperty(attr) &&
+                (arguments.length > 2 && arr[i][attr] === value)) {
+
+                arr.splice(i, 1);
+
+            }
+        }
+        return arr;
+    }
+
 });
 
 var modalCaracteristicasOrdemCtrl = function($scope, $uibModalInstance, $http, $uibModal, $timeout, scope) {
@@ -248,6 +267,7 @@ var modalCaracteristicasOrdemCtrl = function($scope, $uibModalInstance, $http, $
             keyboard: true,
             templateUrl: 'view/modalImagem.html',
             controller: modalImagemCtrl,
+            windowClass : 'modal-imagem',
             resolve: {} // empty storage
         };
 

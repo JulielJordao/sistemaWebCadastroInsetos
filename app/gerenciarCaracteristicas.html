@@ -1,10 +1,10 @@
 <div style="background-color:gray; margin-top:0px; padding-top:0px;height: 30px;">
     <p style="color: white; padding-top:5px;">Gerenciar > Características</p>
 </div>
-<div class="col-sm-4" style="margin-top:10px" style="background-color: #80808033;">
+<div class="col-sm-4" style="margin-top:10px" style="background-color: rgba(128, 128, 128, 0.22) !important;">
     <fieldset style="border: 1px groove #ddd !important;">
-        <div class="col-sm-12" style="background-color: #80808033; ">
-            <label for="" style="margin-top:10px; ">Filtro</label>
+        <div class="col-sm-12" style=" background-color: rgba(128, 128, 128, 0.22) !important; ">
+            <label for="" class="mTop">Filtro</label>
             <div class="input-group" style="margin-bottom:10px">
                 <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Filtragem automática...">
                 <span class="input-group-btn">
@@ -37,7 +37,7 @@
                 <td class="">
                   {{x.nome}}
                 </td>
-                <td class="hidden-xs">{{x.dataCadastro}}</td>
+                <td class="hidden-xs"><span>{{x.dataCadastro | date:"dd/MM/yyyy 'às' h:mma"}}</span></td>
                 <td class="">
                     <button type="button" name="button" ng-click="imagemModal()">
                         <span class="glyphicon glyphicon-picture"></span>
@@ -53,7 +53,7 @@
         </tbody>
     </table>
 </div>
-<div class="col-sm-12 ">
+<div class="col-sm-12 " style="padding-bottom:50px">
     <button class="btn btn-primary pull-right" type="button" name="button" style="margin-left:5px; margin-bottom:10px;" ng-click="acessarCadastro()">Cadastrar Novo Registro</buttom>
     <button class="btn btn-danger pull-right" type="button" name="button" style="margin-bottom:10px;" ng-disabled="!isEntidadeSelecionada()" ng-click="removerRegistro(true)">Deletar</button>
 </div>

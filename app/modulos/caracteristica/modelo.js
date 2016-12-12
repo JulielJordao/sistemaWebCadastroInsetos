@@ -12,7 +12,11 @@ var caracteristicaSchema = new Schema({
     },
     dataCadastro: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        require : true
+    },
+    posicao: {
+      type : Number
     }
 });
 
