@@ -142,6 +142,7 @@ app.controller('cadastroOrdem', function($scope, $http, $uibModal, $routeParams,
             keyboard: true,
             templateUrl: 'view/modalCaracteristicas.html',
             controller: modalCaracteristicasOrdemCtrl,
+            windowClass: 'modal-caracteristica',
             resolve: {} // empty storage
         };
 
@@ -231,12 +232,35 @@ var modalCaracteristicasOrdemCtrl = function($scope, $uibModalInstance, $http, $
 
         function sucesso(res) {
             $scope.caracteristicas = res.data;
-            console.log(res.data);
+
+            var x = 0;
+
+            for(x in $scope.caracteristicas){
+              if(verificaSelecionado($scope.caracteristicas[x])){
+                $scope.caracteristicas[x].selecionado = true;
+              } else {
+                $scope.caracteristicas[x].selecionado = false;
+              }
+            }
         };
 
         function error(err) {
             console.log(res);
         };
+    };
+
+    function verificaSelecionado(entidade){
+        var x = 0;
+
+        var selecionado = false;
+        for(x in scope.ordem.caracteristicas){
+          if(entidade._id === scope.ordem.caracteristicas[x]._id){
+            selecionado = true;
+            break;
+          }
+        }
+
+        return selecionado;
     };
 
     carregarCaracteristicas();
@@ -303,6 +327,7 @@ var modalCaracteristicasOrdemCtrl = function($scope, $uibModalInstance, $http, $
 
     $scope.adicionarListCaracteristicas = function() {
         var x = 0;
+        scope.ordem.caracteristicas = [];
         for (x in $scope.caracteristicas) {
             if ($scope.caracteristicas[x].selecionado === true) {
                 scope.ordem.caracteristicas.push({

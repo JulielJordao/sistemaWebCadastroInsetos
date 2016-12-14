@@ -12,6 +12,8 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParam
     $scope.editMode = false;
     $scope.entidadeSelecionada = {};
 
+    $scope.exibirEscolhidos = true;
+
     $scope.imagemAlterada = false;
 
     var rotaInseto = "api/insetos";
@@ -159,6 +161,7 @@ app.controller('cadastroInsetos', function($scope, $http, $uibModal, $routeParam
             keyboard: true,
             templateUrl: 'view/modalCaracteristicas.html',
             controller: modalCaracteristicasCtrl,
+            windowClass: 'modal-caracteristica',
             resolve: {} // empty storage
         };
 
@@ -325,11 +328,34 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
 
         function sucesso(res) {
             $scope.caracteristicas = res.data;
+
+            var x = 0;
+            for(x in $scope.caracteristicas){
+              if(verificaSelecionado($scope.caracteristicas[x])){
+                $scope.caracteristicas[x].selecionado = true;
+              } else {
+                $scope.caracteristicas[x].selecionado = false;
+              }
+            }
         };
 
         function error(err) {
             console.log(res);
         };
+    };
+
+    function verificaSelecionado(entidade){
+        var x = 0;
+
+        var selecionado = false;
+        for(x in scope.insetos.caracteristicas){
+          if(entidade._id === scope.insetos.caracteristicas[x]._id){
+            selecionado = true;
+            break;
+          }
+        }
+
+        return selecionado;
     };
 
     carregarCaracteristicas();
@@ -396,6 +422,7 @@ var modalCaracteristicasCtrl = function($scope, $uibModalInstance, $http, $uibMo
 
     $scope.adicionarListCaracteristicas = function() {
         var x = 0;
+        scope.insetos.caracteristicas = [];
         for (x in $scope.caracteristicas) {
             if ($scope.caracteristicas[x].selecionado === true) {
                 scope.insetos.caracteristicas.push({

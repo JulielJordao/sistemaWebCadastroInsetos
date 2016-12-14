@@ -37,6 +37,9 @@ app.config(
           }).when('/pesquisar',{
             templateUrl : 'pesquisar.html',
 						controller : 'pesquisarCtrl'
+          }).when('/pesquisar/resultado/:id',{
+            templateUrl : 'resultado.html',
+						controller : 'resultadoCtrl'
           }).otherwise({
 						templateUrl : 'paginaInicial.html',
 						controller : 'pageController'

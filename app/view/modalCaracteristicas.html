@@ -54,7 +54,7 @@
                             <th>Imagem</th>
                         </tr>
                     </thead>
-                    <tbody ng-repeat="x in caracteristicas" ng-click="setSelected(x._id);">
+                    <tbody ng-repeat="x in caracteristicas | filter: mostrarTudo" ng-click="setSelected(x._id);">
                         <tr>
                             <td><input type="checkbox" name="name" value="" ng-model="x.selecionado" ng-click="isCaracteristicasSelecionados()"></td>
                             <td>{{x.nome}}</td>
@@ -70,6 +70,11 @@
         </div>
     </div>
     <div class="modal-footer">
+        <div class="col-sm-6 pull-left">
+            <input class="pull-left" style="margin-top: 4px;margin-left: 8px;" type="checkbox" name="button" ng-model="mostrarTudo" ng-init="false" style="margin-top: 8px;margin-left: 8px;"/>
+            <p for="" class="pull-left" style="margin-top: 5px;margin-left: 6px; font-family: Helvetica Neue,Helvetica,Arial,sans-serif !important;">
+                Mostrar Selecionados</p>
+        </div>
         <button type="button" class="btn btn-default" ng-click="ok()">Fechar</button>
         <button type="button" class="btn btn-primary" ng-disabled="!isCaracteristicasSelecionados()" ng-click="adicionarListCaracteristicas()">Adicionar Selecionados</button>
     </div>

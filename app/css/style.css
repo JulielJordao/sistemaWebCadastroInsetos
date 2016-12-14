@@ -1,6 +1,6 @@
 footer {
     min-height: 100px;
-    background-color: #b4bfb5 !important;
+    background-color: rgb(180, 191, 181) !important;
 }
 
 .imagemCadatro img {
@@ -13,7 +13,7 @@ footer {
 }
 
 .app-modal-window .modal-header {
-  background-color: #3636ff66;
+  background-color: rgba(0, 0, 208, 0.52);
 }
 
 .modal-imagem .modal-body {
@@ -24,6 +24,14 @@ footer {
     background-color: green;
 }
 
+.modal-caracteristica .modal-body {
+  height : 450px;
+}
+
+.modal-caracteristica .modal-header {
+  background-color: rgb(0, 137, 237);
+}
+
 .mTop {
     margin-top: 10px;
 }
@@ -32,4 +40,19 @@ footer {
     margin: 10px;
     max-heigth: 300px;
     max-width: 300px;
+}
+
+.bg-1 {
+    background-color: #1abc9c; /* Green */
+    color: #ffffff;
+}
+
+/*.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}*/
+
+.bg-2 {
+    background-color: #474e5d; /* Dark Blue */
+    color: #ffffff;
 }

@@ -120,14 +120,35 @@ app.controller('pesquisarCtrl',
             });
         };
 
-        $scope.escolha = function(valor){
-          if(valor === 1){
-            carregarSucessores($scope.elementoPosicao1.posicao);
-          };
+        $scope.escolha = function(valor) {
+            if (valor === 1) {
+                carregarSucessores($scope.elementoPosicao1.posicao);
+            };
 
-          if(valor === 2){
-            carregarSucessores($scope.elementoPosicao2.posicao);
-          };
+            if (valor === 2) {
+                carregarSucessores($scope.elementoPosicao2.posicao);
+            };
         }
 
     });
+
+app.controller('resultadoCtrl',
+
+    function($scope, $http, $uibModal, $routeParams, $rootScope, $mdDialog, usuariosService,  crudService) {
+
+      usuariosService.init("pesquisar")
+
+      var rotaInseto = "api/insetos";
+
+      function importarRegistroEdicao() {
+          crudService.obterRegistro(rotaInseto, $routeParams.id, result)
+
+          function result(res) {
+              $scope.insetos = res.data;
+              console.log(res.data)
+          }
+      };
+
+      importarRegistroEdicao()
+
+});
