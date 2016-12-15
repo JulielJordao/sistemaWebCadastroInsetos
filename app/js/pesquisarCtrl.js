@@ -9,6 +9,8 @@ app.controller('pesquisarCtrl',
         $scope.botao1 = "Sem Valor - Op. 1";
         $scope.botao2 = "Sem Valor - Op. 2";
 
+        $scope.pagina = 1;
+
         $scope.elementoPosicao1 = {};
         $scope.elementoPosicao2 = {};
 
@@ -17,9 +19,15 @@ app.controller('pesquisarCtrl',
         posicoes.push(1);
         posicoes.push(2);
 
+        $scope.reiniciar = function(){
+          posicoes = [1, 2]
+          carregarElementosIniciais();
+          $scope.pagina = 1;
+        };
+
         // Carrega os galhos sucessores do elemento
         function carregarSucessores(posicao) {
-
+            $scope.pagina++;
             posicoes = arvoreService.calcularSucessores(posicao);
             var x;
 

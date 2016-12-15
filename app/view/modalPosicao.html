@@ -3,7 +3,6 @@
     <h4 class="modal-title">Posição na Pesquisa</h4>
 </div>
 <div class="modal-body">
-
     <div class="col-sm-12">
         <p>
             <b>Info</b>
@@ -57,17 +56,17 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <input type="text" name="" value="" ng-disabled="true" style="margin-top:18px; width:30px;" class="pull-left"></input>
+                <input type="text" name="" value="" ng-disabled="true" style="margin-top:18px; width:30px;" class="pull-left" placeholder="{{ramificacao}}"></input>
                 <button class="pull-right btn" type="button" name="button" style="margin-top:18px" ng-disabled="true">{{posicao1}}</button>
             </div>
             <div class="col-sm-6">
-                <button class="btn" type="button" name="button" ng-disabled="entidadeSelecionada.nome === '' || (valorPosicao !== undefined && valorPosicao !== null)" ng-class="{'btn-primary' : posicaoSelecionada == '1'}" ng-click="mudarPosicaoSelecionado(1)">{{posicao3}}</button>
+                <button class="btn" type="button" name="button" ng-disabled="entidadeSelecionada.nome === '' || (valorPosicao !== undefined && valorPosicao !== null) || posicao3 !== '-------------'" ng-class="{'btn-primary' : posicaoSelecionada == '0'}" ng-click="mudarPosicaoSelecionado(0)">{{posicao3}}</button>
 
             </div>
             <div class="row">
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6">
-                    <button class="btn" type="button" name="button" style="margin-top:10px" ng-class="{'btn-primary' : posicaoSelecionada == '2'}" ng-disabled="entidadeSelecionada.nome === '' || (valorPosicao !== undefined && valorPosicao !== null)" ng-click="mudarPosicaoSelecionado(2)">{{posicao4}}</button>
+                    <button class="btn" type="button" name="button" style="margin-top:10px" ng-class="{'btn-primary' : posicaoSelecionada == '1'}" ng-disabled="entidadeSelecionada.nome === '' || (valorPosicao !== undefined && valorPosicao !== null)" ng-click="mudarPosicaoSelecionado(1)">{{posicao4}}</button>
                 </div>
             </div>
         </div>
@@ -95,6 +94,6 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="close()" ng-disabled="entidadeSelecionada.nome === '' || posicaoSelecionada === null">Alterar</button>
+    <button type="button" class="btn btn-default" ng-click="alterar()" ng-disabled="entidadeSelecionada.nome === '' || posicaoSelecionada === null">Alterar</button>
     <button type="button" class="btn btn-default" ng-click="close()">Fechar</button>
 </div>

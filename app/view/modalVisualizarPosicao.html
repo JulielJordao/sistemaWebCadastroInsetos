@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">Posição na Pesquisa</h4>
+</div>
+<div class="modal-body">
+    <div class="col-sm-12">
+        <h4 class="text-center">Referência para o posicionamento!</h4>
+        <hr>
+        <div class="col-sm-12 mTop">
+            <div class="row">
+                <div class="col-sm-6">
+                    <button class="btn-primary btn" type="button" name="button" style="margin-top:18px" ng-disabled="true" ng-if="posicao !== 1 && posicao !== 2">{{posicao0}}</button>
+                    <button class="pull-right btn-primary btn" type="button" name="button" style="margin-top:18px" ng-disabled="true">
+                        <b>{{posicao1}}</b>
+                    </button>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn-primary btn" type="button" name="button" ng-disabled="true">{{posicao3}}</button>
+                </div>
+                <div class="row mTop">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6">
+                        <button class="btn-primary btn" type="button" ng-disabled="true">{{posicao4}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <h4 class="text-center" style="margin-top:30px">Guia</h4>
+        <hr>
+        <div class="col-sm-12 mTop">
+            <div class="row">
+                <div class="col-sm-6">
+                    <button class="btn-primary btn" type="button" name="button" style="margin-top:18px" ng-disabled="true">Antecessor</button>
+                    <button class="pull-right btn-primary btn" type="button" name="button" style="margin-top:18px" ng-disabled="true">
+                        <b>Elemento</b>
+                    </button>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn-primary btn" type="button" name="button" ng-disabled="true">Sucessor 1</button>
+                </div>
+                <div class="row mTop">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6">
+                        <button class="btn-primary btn" type="button" ng-disabled="true">Sucessor 2</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="close()">Fechar</button>
+</div>

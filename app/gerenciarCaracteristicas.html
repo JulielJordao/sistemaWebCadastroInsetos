@@ -28,6 +28,7 @@
                 <th class="txt-center"><input type="checkbox" ng-click="isEntidadeSelecionada()"></th>
                 <th>Nome</th>
                 <th class="hidden-xs">Data Cadastro</th>
+                <th class="hidden-xs">Posição</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -38,12 +39,16 @@
                   {{x.nome}}
                 </td>
                 <td class="hidden-xs"><span>{{x.dataCadastro | date:"dd/MM/yyyy 'às' h:mma"}}</span></td>
+                <td class="hidden-xs"><span>{{x.posicao}}</span></td>
                 <td class="">
                     <button type="button" name="button" ng-click="imagemModal()">
                         <span class="glyphicon glyphicon-picture"></span>
                     </button>
                     <button type="button" name="button" ng-click="removerRegistro(false)">
                         <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <button type="button" name="button" ng-click="modalPosicao()" ng-disabled="x.posicao === undefined || x.posicao === null || x.posicao === ''">
+                        <span class="glyphicon glyphicon-search"></span>
                     </button>
                     <button type="button" name="button" ng-click="irParaCadastro()">
                         <span class="glyphicon glyphicon-share-alt"></span>

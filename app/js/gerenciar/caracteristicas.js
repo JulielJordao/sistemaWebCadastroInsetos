@@ -2,7 +2,7 @@ var app = angular.module('myApp');
 
 app.controller('gerenciarCaracteristicas',
 
-    function($scope, $http, $uibModal, $rootScope, usuariosService, Notification, $mdDialog, crudService) {
+    function($scope, $http, $uibModal, $rootScope, $timeout, usuariosService, Notification, $mdDialog, crudService) {
 
         usuariosService.init("gerenciar");
 
@@ -15,8 +15,8 @@ app.controller('gerenciarCaracteristicas',
         $scope.listCaracteristicas = [];
         $scope.caracteristicaSelecionado = {};
 
-        setTimeout(function () {
-          usuariosService.testarPermissao();
+        setTimeout(function() {
+            usuariosService.testarPermissao();
         }, 300);
 
 
@@ -230,7 +230,7 @@ app.controller('gerenciarCaracteristicas',
                 keyboard: true,
                 templateUrl: 'view/modalImagem.html',
                 controller: modalImagemCtrl,
-                windowClass : 'modal-imagem',
+                windowClass: 'modal-imagem',
                 resolve: {} // empty storage
             };
 
@@ -252,10 +252,45 @@ app.controller('gerenciarCaracteristicas',
                 console.log("Modal Closed");
             });
         };
+
+        $scope.modalPosicao = function() {
+
+            $scope.opts = {
+                backdrop: false,
+                backdropClick: true,
+                dialogFade: false,
+                keyboard: true,
+                templateUrl: 'view/modalVisualizarPosicao.html',
+                controller: modalGerenciaPosicaoCtrl,
+                windowClass: 'modal-posicao',
+                resolve: {} // empty storage
+            };
+
+            // Caso desejar passar algum dado para a modal
+            $timeout(function() {
+                $scope.opts.resolve.item = function() {
+                    return angular.copy({
+                        name: $scope.caracteristicaSelecionado
+                    }); // pass name to Dialog
+                };
+                var modalInstance = $uibModal.open($scope.opts);
+
+                modalInstance.result.then(function() {
+                    //on ok button press
+                }, function() {
+                    // $scope.showModal();
+
+                    //on cancel button press
+                    console.log("Modal Closed");
+                });
+            }, 100);
+
+
+        };
     })
 
 var modalImagemCtrl = function($scope, $uibModalInstance, $uibModal, item) {
-  
+
     $scope.imagem = item.name;
 
     $scope.ok = function() {
@@ -265,4 +300,76 @@ var modalImagemCtrl = function($scope, $uibModalInstance, $uibModal, item) {
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
+};
+
+var modalGerenciaPosicaoCtrl = function($scope, $uibModalInstance, $uibModal, $http, item, arvoreService, crudService) {
+
+    $scope.posicao1 = item.name.nome;
+    $scope.posicao3 = "";
+    $scope.posicao4 = "";
+    $scope.posicao0 = "";
+
+    var superiores = [];
+
+    $scope.posicao = item.name.posicao;
+
+    if ($scope.posicao !== undefined && $scope.posicao !== null || $scope.posicao !== "") {
+        carregarSucessores($scope.posicao);
+        if ($scope.posicao > 2) {
+            carregarAntecessor();
+        };
+    };
+
+    // Carrega os galhos sucessores do elemento
+    function carregarSucessores(posicao) {
+
+        var superiores = arvoreService.calcularSucessores($scope.posicao);
+        var x;
+
+        function retornaSuperiores(valor) {
+            $http.get('api/caracteristicas/listar/posicao/' + valor).then(result, error);
+
+            function result(res) {
+                if (valor % 2 === 0) {
+                    if (res.data[0] !== undefined) {
+                        $scope.posicao4 = res.data[0].nome;
+                    }
+                } else {
+                    if (res.data[0] !== undefined) {
+                        $scope.posicao3 = res.data[0].nome;
+                    }
+                }
+            };
+
+            function error(err) {
+                console.log(err);
+            };
+        };
+
+        retornaSuperiores(superiores[0]);
+        retornaSuperiores(superiores[1]);
+    };
+
+    function carregarAntecessor() {
+
+        var antecessor = arvoreService.calcularAntecessor($scope.posicao);
+        var x;
+
+        $http.get('api/caracteristicas/listar/posicao/' + antecessor).then(result, error);
+
+        function result(res) {
+            if (res.data[0] !== undefined) {
+                $scope.posicao0 = res.data[0].nome;
+            }
+        };
+
+        function error(err) {
+            console.log(err);
+        };
+    };
+
+    $scope.close = function() {
+        $uibModalInstance.close();
+    };
+
 };

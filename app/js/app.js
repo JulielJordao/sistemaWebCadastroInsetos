@@ -9,6 +9,10 @@
         usuariosService.init("inicial");
     })
 
+    /* Criaremos um controller geral, e aqui adicionaremos algumas configurações*/
+    app.controller('sobreController', function($scope, usuariosService) {
+        usuariosService.init("sobre");
+    })
 
     // --------------------------------------------------- Controle de Cadastros --------------------------------------------
 
@@ -235,6 +239,8 @@
         $scope.posicao3 = "-------------";
         $scope.posicao4 = "-------------";
 
+        $scope.ramificacao = "";
+
         // Carrega os elementos ao abrir a modal
         if (scope.caracteristica.posicao !== undefined) {
             $scope.valorPosicao = scope.caracteristica.posicao;
@@ -288,6 +294,7 @@
             $scope.posicao1 = $scope.entidadeSelecionada.nome;
 
             carregarSucessores($scope.entidadeSelecionada.posicao);
+            $scope.ramificacao = arvoreService.calcularPosicaoArvore($scope.entidadeSelecionada.posicao);
         };
 
         $scope.mudarPosicaoSelecionado = function(posicao) {
@@ -302,7 +309,7 @@
         // Carrega os galhos sucessores do elemento
         function carregarSucessores(posicao) {
 
-            var superiores = arvoreService.calcularSucessores(posicao);
+            superiores = arvoreService.calcularSucessores(posicao);
             var x;
 
             function retornaSuperiores(valor) {
@@ -311,14 +318,14 @@
                 function result(res) {
                     if (valor % 2 === 0) {
                         $scope.elementoPosicao2 = res.data[0];
-                        if (res.data[0].nome !== undefined) {
+                        if (res.data[0] !== undefined) {
                             $scope.posicao4 = res.data[0].nome;
                         } else {
                             $scope.posicao4 = "-------------";
                         }
                     } else {
                         $scope.elementoPosicao1 = res.data[0];
-                        if (res.data[0].nome !== undefined) {
+                        if (res.data[0] !== undefined) {
                             $scope.posicao3 = res.data[0].nome;
                         } else {
                             $scope.posicao3 = "-------------";
@@ -340,7 +347,10 @@
         };
 
         $scope.alterar = function() {
-
+          // console.log(scope);
+          scope.caracteristica.posicao = superiores[$scope.posicaoSelecionada];
+          scope.cadastroCaracteristicaForm.$pristine = false;
+          $scope.close();
         };
 
     };

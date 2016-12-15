@@ -7,7 +7,11 @@ app.config(
 					$routeProvider.when('/', {
 						templateUrl : 'paginaInicial.html'
 						,controller : 'pageController'
-					}).when('/cadastroCaracteristicas', {
+					})
+
+
+          // Rotas das telas de cadastro
+          .when('/cadastroCaracteristicas', {
 						templateUrl : 'cadastroCaracteristicas.html',
 						controller : 'cadastroCaracteristica'
 					}).when('/cadastroInsetos', {
@@ -16,7 +20,10 @@ app.config(
 					}).when('/cadastroOrdem', {
 						templateUrl : 'cadastroOrdem.html',
 						controller : 'cadastroOrdem'
-					}).when('/cadastroCaracteristicas/:id', {
+					})
+
+          // Rotas das telas de edição
+          .when('/cadastroCaracteristicas/:id', {
 						templateUrl : 'cadastroCaracteristicas.html',
 						controller : 'cadastroCaracteristica'
 					}).when('/cadastroInsetos/:id', {
@@ -25,7 +32,10 @@ app.config(
 					}).when('/cadastroOrdem/:id', {
 						templateUrl : 'cadastroOrdem.html',
 						controller : 'cadastroOrdem'
-					}).when('/gerenciarInsetos', {
+					})
+
+          // Rotas das telas de gerenciamento
+          .when('/gerenciarInsetos', {
 						templateUrl : 'gerenciarInsetos.html',
 						controller : 'gerenciarInsetos'
 					}).when('/gerenciarCaracteristicas',{
@@ -34,12 +44,18 @@ app.config(
           }).when('/gerenciarOrdem',{
             templateUrl : 'gerenciarOrdem.html',
 						controller : 'gerenciarOrdem'
-          }).when('/pesquisar',{
+          })
+
+          // Telas referentes a pesquisa
+          .when('/pesquisar',{
             templateUrl : 'pesquisar.html',
 						controller : 'pesquisarCtrl'
           }).when('/pesquisar/resultado/:id',{
             templateUrl : 'resultado.html',
 						controller : 'resultadoCtrl'
+          }).when('/sobre',{
+            templateUrl : 'sobre.html',
+						controller : 'sobreController'
           }).otherwise({
 						templateUrl : 'paginaInicial.html',
 						controller : 'pageController'
@@ -47,43 +63,3 @@ app.config(
 
 					$locationProvider.html5Mode(false).hashPrefix('!');
 				} ]);
-
-// angular.module('pesquisaApp').config(
-// 		[ '$routeProvider', '$locationProvider',
-// 				function($routeProvider, $locationProvider) {
-// 					$routeProvider.when('/', {
-// 						templateUrl : 'opcoesPesquisa.html'
-// //						,controller : 'pesquisaCtrl'
-// 					}).when('/planta', {
-// 						templateUrl : 'pesquisaPlanta.html',
-// 						controller : 'pesPlantaCtrl'
-// 					}).when('/:nomPopular/:codPlanta', {
-// 						templateUrl : 'planta.html',
-// 						controller : 'pesPlantaCtrl'
-// 					}).when('/doenca', {
-// 						templateUrl : 'pesquisaDoenca.html',
-// 						controller : 'pesDoencaCtrl'
-// 					}).when('/doenca/:nomPopular/:codPlanta', {
-// 						templateUrl : 'doenca.html',
-// 						controller : 'pesDoencaCtrl'
-// 					}).otherwise({
-// 						templateUrl : 'opcoesPesquisa.html'
-// //						controller : 'optionCtrl'
-// 					});
-// 			$locationProvider.html5Mode(false).hashPrefix('!');
-// 	}]);
-//
-//
-// var MyCtrlDialog = function($scope) {
-// 	$scope.open = function() {
-// 		$scope.showModal = true;
-// 	};
-// 	$scope.ok = function() {
-//
-// 		$scope.showModal = false;
-// 	};
-// 	$scope.cancel = function() {
-//
-// 		$scope.showModal = false;
-// 	};
-// };
