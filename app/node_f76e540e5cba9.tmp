@@ -26,7 +26,7 @@ const session = require('express-session');
 const fs = require('fs');
 
 //
-// var parseurl = require('parseurl');
+var parseurl = require('parseurl')
 
 var rotasUsuario = require('./routes/users');
 
@@ -39,13 +39,16 @@ var rotasOrdem = require('./routes/ordem')
 app.use(session({
     resave: false, //não salve a sessão se ela não for modificada
     saveUninitialized: false, //não crie sessão até alguma informação ser armazenada
-    name: 'COOKIE_NAME',
-    secret: 'COOKIE_PASS',
+    name: "COOKIE_NAME",
+    secret: "COOKIE_PASS",
     // store : sessionStore,
     cookie: {
         maxAge: (60000 * 24 * 30)
     }
 }));
+
+var logado = false;
+var usuario = null;
 
 // Configuração do multer para upload de imagens
 const storage = multer.diskStorage({
@@ -57,7 +60,7 @@ const storage = multer.diskStorage({
                 if (err) return cb(err)
                     // Salvo com o nome original
                 cb(null, raw.toString('hex') + path.extname(file.originalname));
-            });
+            })
         } else {
             return file;
         }
@@ -69,7 +72,7 @@ var upload = multer({
 });
 
 mongoose.connect('mongodb://teste:teste@ds017165.mlab.com:17165/sistema_faculdade');
-//mongoose.connect('mongodb://localhost:27017/');
+// mongoose.connect('mongodb://localhost:27017/');
 
 app.set('port', process.env.PORT || 3000);
 
@@ -103,7 +106,7 @@ app.get('/', function(req, res) {
 //         // setTimeout(function () {
 //         //   testar(req, res);
 //         // }, 200);
-//         res.json({code : 'Erro'})
+//         res.json({code : "Erro"})
 //
 //     } else {
 //         res.json({
@@ -113,13 +116,13 @@ app.get('/', function(req, res) {
 
 app.get('/api/deleteImage/:imagem', function(req, res) {
   if(req.session.user !== undefined){
-    fs.unlink('uploads/' + req.params.imagem, sucesso);
+    fs.unlink("uploads/" + req.params.imagem, sucesso);
   } else {
     res.json({error : 'Usuário não logado'})
   }
 
   function sucesso(){
-    res.json({success : 'Registro deletado com suceso!'});
+    res.json({success : "Registro deletado com suceso!"});
   };
 });
 
@@ -132,5 +135,5 @@ app.post('/api/uploads', upload.single('image'), function(req, res) {
 
 
 app.listen(app.get('port'), function() {
-    console.log('Express iniciou em localhost:3000');
+    console.log("Express iniciou em localhost:3000");
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 var app = angular.module('myApp');
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -290,7 +292,7 @@ app.service('crudService', function($rootScope, $location, $timeout, Notificatio
         };
 
         function error(err){
-          console.log("Erro ao recuperar posição para pesquisa")
+          console.info("Erro ao recuperar posição para pesquisa")
         };
 
     };
@@ -365,18 +367,21 @@ app.service('arvoreService', function($timeout) {
             y = 1,
             array = [];
 
-        galhoSuperior = this.calcularTotalElementos(posicao + 1, valor);
+        // Calcular do galho superior
+        galhoSuperior = this.calcularTotalElementos(posicao+1, valor);
 
+        // Verifica qual posicao se encontra no galho
         if (posicao > 1) {
-            posicaoGalho = this.calcularPosicaoFolha(posicao, valor);
+            posicaoGalho = this.calcularPosicaoFolha(valor);
         } else {
             posicaoGalho = valor;
-        }
+        } 
 
+        // A partir da posicao encontrada no galho ele vai somando de 2 em 2 para encontrar a posicao recorrente
         for (var x = 1; x < posicaoGalho; x++) {
             y += 2;
         };
-
+   
         temp = (galhoSuperior + y);
 
         array.push(temp);
@@ -385,7 +390,7 @@ app.service('arvoreService', function($timeout) {
         return array;
     };
 
-    // Encontra o valor que antecede a aquela ramificaçaõ
+    // Encontra o valor que antecede a aquela ramificação
     this.calcularAntecessor = function(valor) {
       if(valor > 6){
         var posicao = this.calcularPosicaoArvore(valor);
@@ -425,34 +430,36 @@ app.service('arvoreService', function($timeout) {
 
         folhasTotaisAntecessor = this.calcularTotalElementos(posicao, valor);
 
+
         resultado = valor - folhasTotaisAntecessor;
 
         return resultado;
     };
 
-    this.calcularTotalElementos = function(posicaoGalho, valor) { // Define quantidadoes de elementos anteriores a aquele galha
+    // Galho = Até qual galho calcular
+    // Valor = para quando o galho for 1 ae ele recebe o valor
+    // Working ...
+    this.calcularTotalElementos = function(galho, valor) { // Define quantidadoes de elementos anteriores a aquele galha
         var x = 1,
             res = 0,
             fatoracao = 2;
+
         // Caso a posicao no galho seja maior que 1 ele realiza o loop para encontrar a quantidade de elementos totais no galho
-        if (posicaoGalho > 1) {
+        if (galho > 1) {
             while (true) {
-                if (x === posicaoGalho) {
+                if (x === galho) {
                     break;
-                };
+                }
                 res += fatoracao;
                 fatoracao *= 2;
                 x++;
-            };
+            }
         }
 
-        // Se a posicao no falho for 1 ele retorna o valor 1
-        if (posicaoGalho === 1) {
+        if (galho === 1) {
             res = valor;
             return valor;
-        };
-
-        if (posicaoGalho !== 1) {
+        } else { 
             return res;
         }
     };
@@ -478,12 +485,12 @@ app.service('arvoreService', function($timeout) {
                 // Valor a acrescentar na soma da quantidade de elementos anteriores ao galho
                 x *= 2;
 
-                arvoreAnterior += x
+                arvoreAnterior += x;
 
                 arvoreSucessor = arvoreAnterior + (x * 2);
-            };
+            }
         }
 
         return pos;
-    }
+    };
 });

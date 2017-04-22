@@ -2,6 +2,9 @@
 <html ng-app="loginApp">
 <head>
   <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Login</title>
   <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
   <script src="bootstrap/js/bootstrap.js"></script>
@@ -41,7 +44,7 @@
             <div style="margin-bottom: 25px" class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
               <input id="login-password" type="password" class="form-control" name="password" placeholder="senha"
-              ng-model="usuario.password" ng-required="true">
+              ng-model="usuario.password" ng-required="true" ng-enter="logar(usuario)">
             </div>
             <div class="col-sm-12" style="padding-right:0px; padding-left: 0px">
               <!-- <div class="col-sm-4 checkbox" style="padding-left: 0px;">

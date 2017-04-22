@@ -1,40 +1,192 @@
-<div class="row" style="margin-top:50px; margin-left:30px; margin-right:30px; min-height:500px">
+<div class="row" style="margin-top:30px; margin-left:30px; margin-right:30px; min-height:500px; margin-bottom:30px;">
     <div class="container marketing">
-        <!-- Três Colunas -->
-        <div class="row">
-            <div class="col-md-3  col-sm-6 jumbotron " style="height:400px !important;">
-                <img class="img-circle" src="img/duvida.jpg" alt="pesquisa inseto" width="140" height="140">
-                <h2>Pesquisa</h2>
-                <p>Obtem a resposta do inseto!</p>
-                <p >
-                    <a class="btn btn-primary" href="index.html#!/pesquisar" role="button">Pesquisar &raquo;</a>
-                </p>
-            </div>
-            <div class="col-md-3 col-sm-6 jumbotron " style="height:400px !important; ">
-                <img class="img-circle" src="img/insetos.jpg" alt="Imagem Insetos" width="140" height="140">
-                <h2>Cadastro</h2>
-                <p>Cadastre novas características!</p>
-                <p >
-                    <a class="btn btn-primary" href="index.html#!/cadastroCaracteristicas" role="button">Cadastrar &raquo;</a>
-                </p>
-            </div>
-            <div class="col-md-3 col-sm-6  jumbotron" style="height:400px !important;  ">
-                <img class="img-circle" src="img/ordem-insetos.jpg" alt="Imagem Ordem" width="140" height="140">
-                <h2>Cadastro</h2>
-                <p>Cadastre novas ordens de insetos!</p>
-                <p >
-                    <a class="btn btn-primary" href="index.html#!/cadastroOrdem" role="button">Cadastrar &raquo;</a>
-                </p>
-            </div>
-            <div class="col-md-3 col-sm-6  jumbotron" style="height:400px !important;  ">
-                <img class="img-circle" src="img/imagem-inseto.jpg" alt="Imagem Inseto" width="140" height="140">
-                <h2>Cadastro</h2>
-                <p>Cadastro de novos insetos</p>
-                <p >
-                    <a class="btn btn-primary" href="index.html#!/cadastroInsetos" role="button">Cadastrar &raquo;</a>
-                </p>
-            </div>
-            <!-- /.col-lg-4 -->
+        <div class="col-sm-6">
+            <md-card md-theme="" md-theme-watch="">
+                <md-card-title class="mBottom titleCard">
+                    <md-card-title-text style="text-align: center;">
+                        <span class="md-headline">Pesquisa</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content layout="row" layout-align="space-between">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <img src="img/duvida.jpg" alt="pesquisa inseto" width="140px" height="140px">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="font-size: 16px;">Obtem a resposta a partir de suas características!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                            <md-card-actions layout="column">
+                                <md-button class="md-icon-button" aria-label="Favorite">
+                            <md-icon md-svg-icon="fonts/ic_add_circle_black_24px.svg"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button" aria-label="Settings">
+                            <md-icon md-svg-icon="app/fonts/ic_list_black_24px.svg"></md-icon>
+                        </md-button>
+
+                            </md-card-actions>
+                        </div>
+                    </div>-->
+                </md-card-content>
+                <div class="row mBottom">
+                    <div class="col-sm-12">
+                        <div class="col-sm-5 pull-right">
+                            <md-button class="btn-block" aria-label="Share" href="index.html#!/pesquisar">
+                                <a class="btn btn-block btn-primary" href="index.html#!/pesquisar" role="button">Pesquisar
+                            <md-icon md-svg-icon="fonts/ic_search_black_24px.svg" style="color:white"></md-icon></a>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+            </md-card>
+        </div>
+
+        <div class="col-sm-6">
+            <md-card md-theme="" md-theme-watch="">
+                <md-card-title class="mBottom titleCard">
+                    <md-card-title-text style="text-align: center;">
+                        <span class="md-headline">Cadastro de Características</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content layout="row" layout-align="space-between">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <img src="img/insetos.jpg" alt="Imagem Insetos" width="140px" height="140px">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="font-size: 16px;">Gerencie as posições dentro da árvore de pesquisa e cadastre novas características!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                            <md-card-actions layout="column">
+                            </md-card-actions>
+                        </div>
+                    </div>-->
+
+                </md-card-content>
+                <div class="row mBottom">
+                    <div class="col-sm-12">
+                        <div class="col-sm-6 pull-right">
+                            <md-button class="col-sm-12" aria-label="Share" href="index.html#!/cadastroCaracteristicas">
+                                <a class="btn btn-block btn-primary" href="index.html#!/cadastroCaracteristicas" role="button">Cadastrar
+                            <md-icon md-svg-icon="fonts/ic_add_circle_black_24px.svg" style="color:white"></md-icon></a>
+                            </md-button>
+                        </div>
+                        <div class="col-sm-6 pull-right">
+                            <md-button class="col-sm-12" aria-label="Share" href="index.html#!/gerenciarCaracteristicas">
+                                <a class="btn btn-block btn-primary" href="index.html#!/gerenciarCaracteristicas" role="button">Gerenciar
+                                <md-icon md-svg-icon="fonts/ic_list_black_24px.svg" style="color:white"></md-icon></a>
+                            </md-button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </md-card>
+        </div>
+        <div class="col-sm-6">
+            <md-card md-theme="" md-theme-watch="">
+                <md-card-title class="mBottom titleCard">
+                    <md-card-title-text style="text-align: center;">
+                        <span class="md-headline">Cadastro das Ordens</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content layout="row" layout-align="space-between">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <img src="img/ordem-insetos.jpg" alt="Imagem Ordem" width="140px" height="140px">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="font-size: 16px;">Cadastre novas ordens de insetos!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                            <md-card-actions layout="column">
+                            </md-card-actions>
+                        </div>
+                    </div>-->
+
+                </md-card-content>
+                <div class="row mBottom">
+                    <div class="col-sm-12">
+                        <div class="col-sm-6 pull-right">
+                            <md-button class="col-sm-12" aria-label="Share" href="index.html#!/cadastroOrdem">
+                                <a class="btn btn-block btn-primary" href="index.html#!/cadastroOrdem" role="button">Cadastrar
+                            <md-icon md-svg-icon="fonts/ic_add_circle_black_24px.svg" style="color:white"></md-icon></a>
+                            </md-button>
+                        </div>
+                        <div class="col-sm-6 pull-right">
+                            <md-button class="col-sm-12" aria-label="Share" href="index.html#!/gerenciarOrdem">
+                                <a class="btn btn-block btn-primary" href="index.html#!/gerenciarOrdem" role="button">Gerenciar
+                                <md-icon md-svg-icon="fonts/ic_list_black_24px.svg" style="color:white"></md-icon></a>
+                            </md-button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </md-card>
+        </div>
+        <div class="col-sm-6">
+            <md-card md-theme="" md-theme-watch="">
+                <md-card-title class="mBottom titleCard">
+                    <md-card-title-text style="text-align: center;">
+                        <span class="md-headline">Cadastro de Insetos</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content layout="row" layout-align="space-between">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <img src="img/imagem-inseto.jpg" alt="Imagem Inseto" width="140px" height="140px">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <p style="font-size: 16px;">Cadastre novas insetos associando a características!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-sm-12">
+                            <md-card-actions layout="column">
+                            </md-card-actions>
+                        </div>
+                    </div>-->
+
+                </md-card-content>
+                <div class="row mBottom">
+                    <div class="col-sm-12">
+                        <div class="col-sm-6 pull-right">
+                            <md-button class="col-sm-12" aria-label="Share" href="index.html#!/cadastroInsetos">
+                                <a class="btn btn-block btn-primary" href="index.html#!/cadastroInsetos" role="button">Cadastrar
+                            <md-icon md-svg-icon="fonts/ic_add_circle_black_24px.svg" style="color:white"></md-icon></a>
+                            </md-button>
+                        </div>
+                        <div class="col-sm-6 pull-right">
+                            <md-button class="col-sm-12" aria-label="Share" href="index.html#!/gerenciarInsetos">
+                                <a class="btn btn-block btn-primary" href="index.html#!/gerenciarInsetos" role="button">Gerenciar
+                                <md-icon md-svg-icon="fonts/ic_list_black_24px.svg" style="color:white"></md-icon></a>
+                            </md-button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </md-card>
         </div>
     </div>
 </div>

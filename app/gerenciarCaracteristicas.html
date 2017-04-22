@@ -3,7 +3,7 @@
 </div>
 <div class="col-sm-4" style="margin-top:10px" style="background-color: rgba(128, 128, 128, 0.22) !important;">
     <fieldset style="border: 1px groove #ddd !important;">
-        <div class="col-sm-12" style=" background-color: rgba(128, 128, 128, 0.22) !important; ">
+        <div class="col-sm-12" style=" background-color: rgba(128, 128, 128, 0.22) !important; padding-bottom:3px">
             <label for="" class="mTop">Filtro</label>
             <div class="input-group" style="margin-bottom:10px">
                 <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Filtragem automática...">
@@ -25,7 +25,7 @@
     <table class="table ls-table" id="tabela1">
         <thead>
             <tr>
-                <th class="txt-center"><input type="checkbox" ng-click="isEntidadeSelecionada()"></th>
+                <th class="txt-center"><input type="checkbox" ng-click="isEntidadeSelecionada()" ng-disabled="true"></th>
                 <th>Nome</th>
                 <th class="hidden-xs">Data Cadastro</th>
                 <th class="hidden-xs">Posição</th>

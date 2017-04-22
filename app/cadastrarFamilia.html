@@ -1,23 +1,23 @@
-<div class="row jumbotron" style="padding:0px; heigth:65px !important; padding-left: 20px !important;">
-    <h2>Cadastro de Insetos</h2>
+<div class="row jumbotron" style="padding:0px; height:65px !important; padding-left: 20px !important;">
+    <h2>Cadastro da Família de Insetos</h2>
 </div>
-<form class="" name="cadastroInsetosForm">
+<form class="" name="cadastroFamíliaForm">
 
     <div class="col-sm-12" style="background-color:white; padding-bottom:10px">
         <div class="col-sm-7" style="padding-left:0px; margin-top: -6px;">
-            <p>Info: Insira uma imagem correspondente ao insetos</p>
+            <p>Info: Insira uma imagem correspondente para visualização da família correspondente.</p>
             <form id="fileupload">
                 <div class="row fileupload-buttonbar">
                     <div class="col-lg-12">
                         <!-- O fileinput-botton span é usado para estilizar o campo de arquivo no botão -->
                         <span class="btn btn-success input-group btn-block">
-                            <input type="file" class="form-control-file" accept="image/*" file-model="url.image" onchange="readURL(this);" ng-required="true" ng-blur="alterarImagem()"/>
+                            <input type="file" class="form-control-file" accept="image/*" file-model="url.image" onchange="readURL(this);" ng-required="true" style="max-height:100%; max-width:100%" ng-blur="alterarImagem()"/>
                         </span>
-                        <div class="imagemCadatro" style="margin-top:10px">
-                            <img id="blah" src="#" alt="imagem" ng-show="url.image !== undefined">
-                            <img id="imagemEdicao" src="uploads/{{insetos.imagem}}" alt="Imagem Inseto" ng-show="url.image === undefined && editMode === true && imagemAlterada === false">
-                            <img id="temp" src="img/sem-imagem.png" alt="sem-imagem" style="margin-top: 10px" ng-show="url.image === undefined && editMode === false" ng-required="true">
-                        </div>
+                        <div class="imagemCadatro mTop">
+                          <img id="blah" src="#" alt="imagem" ng-show="url.image !== undefined">
+                          <img id="imagemEdicao" src="uploads/{{familia.imagem}}" alt="Imagem Família" ng-show="url.image === undefined && editMode === true && imagemAlterada === false">
+                          <img id="temp" class="mTop" src="img/sem-imagem.png" alt="sem-imagem" ng-show="url.image === undefined && editMode === false" ng-required="true" >
+                      </div>
                     </div>
                 </div>
             </form>
@@ -27,17 +27,14 @@
                 <fieldset >
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="infoCadastro">Nome do Inseto</label>
-                            <input type="text" class="form-control" name="name" value="" ng-model="insetos.nome" ng-required="true">
+                            <label for="infoCadastro">Nome do Família</label>
+                            <input type="text" class="form-control" name="name" value="" ng-model="familia.nome" ng-required="true">
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        <label for="associarOrdem">Associar a uma Ordem</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" ng-maxlength="11" ng-model="insetos.ordem.nome" ng-disabled="true" ng-required="true">
-                            <span class="input-group-btn">
-                                <button class="glyphicon glyphicon-search btn btn-primary" type="button" ng-click="showModalOrdem()"></button>
-                            </span>
+                        <div class="form-group">
+                            <label for="infoCadastro">Inseto Referência</label>
+                            <input type="text" class="form-control" name="name" value="" ng-model="familia.insetoReferencia" ng-required="true">
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -53,14 +50,14 @@
                                                 <span class="glyphicon glyphicon-remove" style="color:red;"></button>
                                             </th>
                                             <th>Adicionar
-                                                <button type="button" data-toggle="modal" data-target="#myModal" onclick="removerClasseInvalida()" ng-click="abrirCaracteristicas()" ng-disabled="insetos.ordem.nome === undefined">
+                                                <button type="button" data-toggle="modal" data-target="#myModal" onclick="removerClasseInvalida()" ng-click="abrirCaracteristicas()">
                                                     <span class="glyphicon glyphicon-zoom-in"></span>
                                                 </button>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="x in insetos.caracteristicas">
+                                        <tr ng-repeat="x in familia.caracteristicas" ng-click="setSelectedCaracteristicas(x)">
                                             <td>{{x.nome}}</td>
                                             <td style="text-align: center;">
                                                 <a href="" ng-click="removerLinhaCaracteristica(x)">
@@ -81,6 +78,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+          </div>
     </div>
 </form>

@@ -14,12 +14,12 @@
             <label for="searchBar">Procurar:</label>
             <div class="input-group">
                 <!--Estava faltando essa div-->
-                <input type="text" class="form-control" id="searchBar" placeholder="Nome:" ng-model="pesquisa.nome"/>
+                <input type="text" class="form-control" id="searchBar" placeholder="Nome:" ng-model="pesquisa.nome" ng-enter="pesquisar(pesquisa.nome)"/>
                 <span class="input-group-btn">
                     <!--Estava faltando esse span-->
                     <button type="submit" class="btn btn-info" value="Procurar" ng-click="pesquisar(pesquisa.nome)">
                         <span class="glyphicon glyphicon-search"></span>
-                    </button>
+                </button>
                 </span>
             </div>
         </div>
@@ -49,24 +49,30 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">
-                    <p>Elemento Selecionado:
-                        {{entidadeSelecionada.nome}}</p>
+                    <p><b>Elemento Selecionado:</b> {{entidadeSelecionada.nome}}
+                    </p>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
-                <input type="text" name="" value="" ng-disabled="true" style="margin-top:18px; width:30px;" class="pull-left" placeholder="{{ramificacao}}"></input>
+            <div class="col-sm-7">
+                <input type="text" name="" value="" ng-disabled="true" style="margin-top:18px; width:30px;" class="pull-left" 
+                    placeholder="{{ramificacao}}"></input>
                 <button class="pull-right btn" type="button" name="button" style="margin-top:18px" ng-disabled="true">{{posicao1}}</button>
             </div>
-            <div class="col-sm-6">
-                <button class="btn" type="button" name="button" ng-disabled="entidadeSelecionada.nome === '' || (valorPosicao !== undefined && valorPosicao !== null) || posicao3 !== '-------------'" ng-class="{'btn-primary' : posicaoSelecionada == '0'}" ng-click="mudarPosicaoSelecionado(0)">{{posicao3}}</button>
+            <div class="col-sm-5">
+                <button class="btn" type="button" name="button" 
+                    ng-disabled="entidadeSelecionada.nome === '' || 
+                    (valorPosicao !== undefined && valorPosicao !== null) || posicao3 !== '-------------'"
+                    ng-class="{'btn-primary' : posicaoSelecionada == '0'}" ng-click="mudarPosicaoSelecionado(0)">{{posicao3}}</button>
 
             </div>
             <div class="row">
-                <div class="col-sm-6"></div>
-                <div class="col-sm-6">
-                    <button class="btn" type="button" name="button" style="margin-top:10px" ng-class="{'btn-primary' : posicaoSelecionada == '1'}" ng-disabled="entidadeSelecionada.nome === '' || (valorPosicao !== undefined && valorPosicao !== null)" ng-click="mudarPosicaoSelecionado(1)">{{posicao4}}</button>
+                <div class="col-sm-7"></div>
+                <div class="col-sm-5">
+                    <button class="btn" type="button" name="button" style="margin-top:10px" ng-class="{'btn-primary' : posicaoSelecionada == '1'}"
+                        ng-disabled="entidadeSelecionada.nome === '' || (valorPosicao !== undefined && valorPosicao !== null) || posicao4 !== '-------------'"
+                        ng-click="mudarPosicaoSelecionado(1)">{{posicao4}}</button>
                 </div>
             </div>
         </div>

@@ -1,23 +1,23 @@
-(function() {
+(function () {
     'use strict';
     var app = angular.module('myApp', ['ngRoute', 'ui-notification', 'ui.bootstrap', 'ngMaterial']);
 
     var login = angular.module('loginApp', ['myApp']);
 
     /* Criaremos um controller geral, e aqui adicionaremos algumas configurações*/
-    app.controller('pageController', function($scope, usuariosService) {
+    app.controller('pageController', function ($scope, usuariosService) {
         usuariosService.init("inicial");
     })
 
     /* Criaremos um controller geral, e aqui adicionaremos algumas configurações*/
-    app.controller('sobreController', function($scope, usuariosService) {
+    app.controller('sobreController', function ($scope, usuariosService) {
         usuariosService.init("sobre");
     })
 
     // --------------------------------------------------- Controle de Cadastros --------------------------------------------
 
     // Controle do cadastro de cadastroCaracteristicas
-    app.controller('cadastroCaracteristica', function($scope, $http, $routeParams, $uibModal, usuariosService, Notification, crudService) {
+    app.controller('cadastroCaracteristica', function ($scope, $http, $routeParams, $uibModal, usuariosService, Notification, crudService) {
 
         $scope.selecionado = false, $scope.url = {};
         $scope.caracteristica = {};
@@ -71,7 +71,7 @@
         dataRequest.route = "api/caracteristicas";
         dataRequest.title = "Caracteristicas";
 
-        $scope.mudarPosicao = function(posicao) {
+        $scope.mudarPosicao = function (posicao) {
             $scope.caracteristica.posicao = posicao;
             $scope.cadastroCaracteristicaForm.$pristine = false;
             Notification.info({
@@ -91,13 +91,13 @@
             }
         };
 
-        $scope.alterarImagem = function() {
+        $scope.alterarImagem = function () {
             if ($scope.url.image !== undefined && $scope.url.image !== null && $scope.url.image !== "") {
                 $scope.imagemAlterada = true;
             }
         };
 
-        $scope.salvarHabilitado = function() {
+        $scope.salvarHabilitado = function () {
             if ($scope.editMode === true) {
                 return $scope.cadastroCaracteristicaForm.$invalid || $scope.cadastroCaracteristicaForm.$pristine ? true : false
             } else {
@@ -109,9 +109,9 @@
         // ----------------------------------------- Funções referentes a edição ---------------------------------------
         // -------------------------------------------------------------------------------------------------------------
 
-        $scope.submeterCadastro = function(file) {
+        $scope.submeterCadastro = function (file) {
             // $scope.url.image.filename = $scope.url.image.name;
-            setTimeout(function() {
+            setTimeout(function () {
                 if ($scope.imagemAlterada === true || $scope.editMode === false) {
                     var file = $scope.url.image;
                     var fd = new FormData();
@@ -136,6 +136,7 @@
                     if ($scope.editMode === false) {
                         dataRequest.entity = {
                             nome: $scope.caracteristica.nome,
+                            posicao: $scope.caracteristica.posicao,
                             imagem: res.data.code,
                         };
 
@@ -155,14 +156,14 @@
             }, 100);
         }
 
-        $scope.alterarImagem = function() {
+        $scope.alterarImagem = function () {
             if ($scope.url.image !== undefined && $scope.url.image !== null && $scope.url.image !== "") {
                 $scope.imagemAlterada = true;
                 console.log($scope.imagemAlterada)
             }
         };
 
-        $scope.showModalPosicao = function() {
+        $scope.showModalPosicao = function () {
             $scope.opts = {
                 backdrop: false,
                 backdropClick: true,
@@ -170,49 +171,52 @@
                 keyboard: true,
                 templateUrl: 'view/modalPosicao.html',
                 controller: modalPosicaoCtrl,
-                windowClass : 'app-modal-window',
+                windowClass: 'app-modal-window',
                 resolve: {} // empty storage
             };
 
-            $scope.opts.resolve.scope = function() {
+            $scope.opts.resolve.scope = function () {
                 return $scope
             };
 
             var modalInstance = $uibModal.open($scope.opts);
 
-            modalInstance.result.then(function() {
+            modalInstance.result.then(function () {
 
-            }, function() {
+            }, function () {
 
             });
         };
 
-        $scope.removerPosicao = function() {
+        $scope.removerPosicao = function () {
             $scope.caracteristica.posicao = null;
             $scope.cadastroCaracteristicaForm.$pristine = false;
         };
 
     });
 
-    login.controller('loginController', function($scope, usuariosService) {
-        $scope.logar = function(user) {
+    login.controller('loginController', function ($scope, usuariosService) {
+        $scope.logar = function (user) {
             usuariosService.validaLogin(user);
         }
     });
 
-    app.controller('inicialController', function($scope, usuariosService) {
+    app.controller('inicialController', function ($scope, usuariosService) {
         usuariosService("inicial");
     });
 
-    app.directive('fileModel', ['$parse', function($parse) {
+
+    // ------------------------ Diretivas do sistema ----------------------------
+
+    app.directive('fileModel', ['$parse', function ($parse) {
         return {
             restrict: 'A',
-            link: function(scope, element, attrs) {
+            link: function (scope, element, attrs) {
                 var model = $parse(attrs.fileModel);
                 var modelSetter = model.assign;
 
-                element.bind('change', function() {
-                    scope.$apply(function() {
+                element.bind('change', function () {
+                    scope.$apply(function () {
                         modelSetter(scope, element[0].files[0]);
                     });
                 });
@@ -220,7 +224,25 @@
         };
     }]);
 
-    var modalPosicaoCtrl = function($scope, $uibModalInstance, $http, $uibModal, $timeout, scope, arvoreService) {
+    /*  
+    Esta diretiva permite chamar uma função qualquer ao pressionar a tecla Enter.  
+    */
+    app.directive('ngEnter', function () {
+        return function (scope, element, attrs) {
+            element.bind("keydown keypress", function (event) {
+                if (event.which === 13) {
+                    scope.$apply(function () {
+                        scope.$eval(attrs.ngEnter);
+                    });
+                    event.preventDefault();
+                }
+            });
+        };
+    });
+
+    // ---------------------- Fim das Diretivas -------------------------------------
+
+    var modalPosicaoCtrl = function ($scope, $uibModalInstance, $http, $uibModal, $timeout, scope, arvoreService) {
 
         // Lista de todas as caracteristicas
         $scope.listCaracteristicas = [];
@@ -260,7 +282,7 @@
 
         var superiores = [];
 
-        $scope.carregarListCaracteristicas = function() {
+        $scope.carregarListCaracteristicas = function () {
             $http.get('api/caracteristicas/listar').then(result, error);
 
             function result(res) {
@@ -274,7 +296,7 @@
 
         $scope.carregarListCaracteristicas();
 
-        $scope.pesquisar = function(valor) {
+        $scope.pesquisar = function (valor) {
             var x = 0;
             $scope.resultadoPesquisa = [];
             for (x in $scope.listCaracteristicas) {
@@ -288,7 +310,7 @@
             }
         };
 
-        $scope.setSelected = function(selecionado) {
+        $scope.setSelected = function (selecionado) {
             $scope.posicaoSelecionada = null;
             $scope.entidadeSelecionada = selecionado;
             $scope.posicao1 = $scope.entidadeSelecionada.nome;
@@ -297,22 +319,26 @@
             $scope.ramificacao = arvoreService.calcularPosicaoArvore($scope.entidadeSelecionada.posicao);
         };
 
-        $scope.mudarPosicaoSelecionado = function(posicao) {
+        $scope.mudarPosicaoSelecionado = function (posicao) {
             $scope.posicaoSelecionada = posicao;
         };
 
-        $scope.close = function() {
+        $scope.close = function () {
             $uibModalInstance.close();
         };
 
 
         // Carrega os galhos sucessores do elemento
         function carregarSucessores(posicao) {
-
+            // console.log('Posicao:' + posicao)
             superiores = arvoreService.calcularSucessores(posicao);
-            var x;
+            var x
+
+            // console.log(superiores[1])
+            // console.log(superiores[2])
 
             function retornaSuperiores(valor) {
+                // console.log(valor)
                 $http.get('api/caracteristicas/listar/posicao/' + valor).then(result, error);
 
                 function result(res) {
@@ -342,15 +368,15 @@
             retornaSuperiores(superiores[1]);
         };
 
-        function carregarGalhoInferior(){
+        function carregarGalhoInferior() {
 
         };
 
-        $scope.alterar = function() {
-          // console.log(scope);
-          scope.caracteristica.posicao = superiores[$scope.posicaoSelecionada];
-          scope.cadastroCaracteristicaForm.$pristine = false;
-          $scope.close();
+        $scope.alterar = function () {
+            // console.log(scope);
+            scope.caracteristica.posicao = superiores[$scope.posicaoSelecionada];
+            scope.cadastroCaracteristicaForm.$pristine = false;
+            $scope.close();
         };
 
     };

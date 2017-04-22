@@ -3,6 +3,14 @@ footer {
     background-color: rgb(180, 191, 181) !important;
 }
 
+.mBottom {
+    margin-bottom: 20px;
+}
+
+.titleCard {
+    background-color: rgba(128, 128, 128, 0.2);
+}
+
 .imagemCadatro img {
     max-height: 100%;
     max-width: 100%;
@@ -10,6 +18,18 @@ footer {
 
 .app-modal-window .modal-body {
     height: 90%;
+}
+@media screen and (max-width: 799px) {
+    .app-modal-window .modal-content {
+        max-width: 100%;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .app-modal-window .modal-content {
+        width: 1000px;
+        margin-left: -30%;
+    }
 }
 
 .app-modal-window .modal-header {
@@ -43,6 +63,19 @@ footer {
 .modal-posicao .btn-primary{
   min-height: 36px !important;
   min-width: 90px !important;
+}
+
+@media screen and (max-width: 799px) {
+    .modal-posicao .modal-content {
+        max-width: 100%;
+    };
+}
+
+@media screen and (min-width: 800px) {
+    .modal-posicao .modal-content {
+        width: 1200px;
+        margin-left: -50%;
+    };
 }
 
 .mTop {
